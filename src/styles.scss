@@ -73,4 +73,31 @@ ngb-modal-window.apidae_date {
   // Custom styles
   @import "assets/scss/custom-buttons";
   @import "assets/scss/apidate";
+
+  // Overrides for Apidae integration
+  &.modal {
+    width: 720px;
+    margin-left: -360px;
+    background-color: transparent;
+    border: none;
+    box-shadow: none;
+
+    h2 {
+      border-bottom: none;
+      margin-bottom: inherit;
+      padding-bottom: inherit;
+    }
+  }
+
+  .btn-group + .btn-group {
+    margin-left: 0;
+  }
+
+  .collapse.show {
+    height: auto;
+  }
+
+  .btn {
+    background-image: none;
+  }
 }
