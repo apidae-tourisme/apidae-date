@@ -1,0 +1,69 @@
+// Icons
+$fa-font-path: "../node_modules/font-awesome/fonts";
+@import "node_modules/font-awesome/scss/font-awesome";
+
+.apidae_date {
+  // Apidae theme colors - overrides Bootstrap defaults
+  $primary: #5db0c7;
+  $secondary: #a4bd52;
+  $success: #d9e8a9;
+  $info: #7e7764;
+  $warning: #f5c32e;
+  $danger: #df7b7a;
+  $light: #eceded;
+  $dark: #282828;
+
+  $modal-lg: 960px;
+  $modal-md: 720px;
+  $modal-sm: 540px;
+
+  // Import Bootstrap defaults
+  @import "node_modules/bootstrap/scss/functions";
+  @import "node_modules/bootstrap/scss/variables";
+  @import "node_modules/bootstrap/scss/mixins";
+  @import "node_modules/bootstrap/scss/root";
+  @import "node_modules/bootstrap/scss/print";
+
+  // CSS reboot (html and body tags)
+  font-family: $font-family-base;
+  font-size: $font-size-base;
+  font-weight: $font-weight-base;
+  line-height: $line-height-base;
+  color: $body-color;
+  text-align: left;
+  outline: none;
+
+  @import "node_modules/bootstrap/scss/reboot";
+  @import "node_modules/bootstrap/scss/type";
+  @import "node_modules/bootstrap/scss/images";
+  @import "node_modules/bootstrap/scss/code";
+  @import "node_modules/bootstrap/scss/grid";
+  @import "node_modules/bootstrap/scss/tables";
+  @import "node_modules/bootstrap/scss/forms";
+  @import "node_modules/bootstrap/scss/transitions";
+  @import "node_modules/bootstrap/scss/dropdown";
+  @import "node_modules/bootstrap/scss/button-group";
+  @import "node_modules/bootstrap/scss/input-group";
+  @import "node_modules/bootstrap/scss/custom-forms";
+  @import "node_modules/bootstrap/scss/nav";
+  @import "node_modules/bootstrap/scss/navbar";
+  @import "node_modules/bootstrap/scss/card";
+  @import "node_modules/bootstrap/scss/breadcrumb";
+  @import "node_modules/bootstrap/scss/pagination";
+  @import "node_modules/bootstrap/scss/badge";
+  @import "node_modules/bootstrap/scss/jumbotron";
+  @import "node_modules/bootstrap/scss/alert";
+  @import "node_modules/bootstrap/scss/progress";
+  @import "node_modules/bootstrap/scss/media";
+  @import "node_modules/bootstrap/scss/list-group";
+  @import "node_modules/bootstrap/scss/close";
+  @import "node_modules/bootstrap/scss/modal";
+  @import "node_modules/bootstrap/scss/tooltip";
+  @import "node_modules/bootstrap/scss/popover";
+  @import "node_modules/bootstrap/scss/carousel";
+  @import "node_modules/bootstrap/scss/utilities";
+
+  // Custom styles
+  @import "assets/scss/custom-buttons";
+  @import "assets/scss/apidate";
+}

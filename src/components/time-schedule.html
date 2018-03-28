@@ -1,0 +1,41 @@
+<div class="modal-header bg-primary">
+  <button type="button" class="close" aria-label="Fermer" (click)="activeModal.dismiss()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<form id="time_schedule_form" [formGroup]="tsForm" (ngSubmit)="onSubmit()" #scheduleForm="ngForm" [class.submitted]="submitted">
+  <div class="modal-body">
+    <div *ngIf="timeSchedule">
+      <div class="row">
+        <div class="col-sm-8">
+          <h2 class="h4">{{title}}</h2>
+          <h3 class="h5 m-0">{{subtitle}}</h3>
+          <small>{{identifiers()}}</small>
+        </div>
+        <div class="col-sm-4 text-right">
+          <button class="btn btn-sm btn-link" type="button" (click)="toggleAll(false)"><i class="fa fa-plus"></i>&nbsp;Détails</button>
+          <button class="btn btn-sm btn-link" type="button" (click)="toggleAll(true)"><i class="fa fa-minus"></i>&nbsp;Réduire</button>
+        </div>
+      </div>
+      <hr/>
+      <div formArrayName="timePeriods" class="mt-3">
+        <div *ngFor="let tp of timePeriods.controls; let i = index" class="time-period">
+          <apidate-time-period [tpForm]="tp" [rank]="i" (removed)="timePeriods.controls.splice(i, 1)"
+                               (cloned)="addTimePeriod(i, tp.value)"></apidate-time-period>
+        </div>
+      </div>
+      <p *ngIf="timeSchedule.timePeriods.length === 0" class="text-center mt-4 mb-4">
+        Aucune période enregistrée pour le moment.
+      </p>
+      <div class="text-right mt-3">
+        <button class="btn btn-secondary" type="button" (click)="addTimePeriod(timePeriods.controls.length)">Ajouter un type d'horaire</button>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('cancel')">Annuler</button>
+    <button class="btn btn-primary text-white" type="submit">Valider</button>
+  </div>
+</form>
+
+

@@ -1,0 +1,95 @@
+@include media-breakpoint-up(lg) {
+  .modal-dialog {
+    max-width: $modal-lg;
+  }
+}
+
+.modal-header {
+  background-image: url('./assets/img/logo_white.png');
+  background-repeat: no-repeat;
+  background-position: 1rem center;
+  background-size: 100px auto;
+  height: 60px;
+}
+
+.time-period:not(:first-child) {
+  margin-top: 1rem;
+}
+
+apidate-time-period {
+
+  .dropdown-toggle {
+    font-size: $h5-font-size;
+
+    &::after {
+      vertical-align: middle;
+      margin-left: 0.4em;
+    }
+  }
+
+  .card-header p {
+    line-height: 1.2rem;
+  }
+}
+
+ngb-timepicker fieldset {
+  display: inline-block;
+}
+
+ngb-timepicker {
+  fieldset input.form-control {
+    font-size: 0.8rem;
+    width: 3rem;
+  }
+}
+
+.weekdays {
+  input[type="checkbox"] {
+    display: none;
+  }
+}
+
+apidate-time-schedule {
+  form.submitted.ng-invalid {
+
+    apidate-time-period {
+      > .ng-invalid {
+        .dropdown-toggle, .tp_text {
+          &::before {
+            content: $fa-var-warning;
+            font-family: 'FontAwesome';
+            display: inline-block;
+            color: $danger;
+            padding-right: 0.5rem;
+            text-shadow: 0 0 1px white;
+          }
+        }
+      }
+
+      .tf_wrapper.ng-invalid {
+        border-color: $danger;
+        margin-bottom: 0;
+      }
+    }
+
+    ngb-timepicker.ng-invalid {
+      position: relative;
+
+      fieldset input.form-control {
+        border-color: $danger;
+      }
+
+      &::after {
+        content: 'champ requis';
+        position: absolute;
+        width: 100%;
+        top: -1.2em;
+        left: 0;
+        color: $danger;
+        font-size: 0.7rem;
+        text-align: center;
+        font-weight: bold;
+      }
+    }
+  }
+}

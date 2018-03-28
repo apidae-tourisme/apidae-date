@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <title>Apidae Date</title>
+  <base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <style>
+    body {
+      font-family: Helvetica, Arial, sans-serif;
+    }
+
+    .txtcenter {
+      text-align: center;
+    }
+  </style>
+</head>
+<body style="background-color: #ccc;">
+  <div class="txtcenter">
+    <h1 class="txtcenter">Test intégration Apidae Date</h1>
+    <label for="external_id">Identifiant de la période d'ouverture : </label><input id="external_id" type="text" name="external_id"/>
+    <button type="button" onclick="window.initApidaeDate({title: 'Objet test', subtitle: 'Période du 01/01/2018 au 31/12/2018', externalId: document.getElementById('external_id').value, externalType: 'PATRIMOINE_CULTUREL', type: 'apidae', startDate: '2018-01-01', endDate: '2018-12-31'})">
+      Ouvrir
+    </button>
+  </div>
+  <apidate-form class="apidae_date"></apidate-form>
+</body>
+</html>
