@@ -21,8 +21,7 @@ export class StorageService {
         if (res['rows'].length > 0) {
           let result = res['rows'][0];
           let doc = result.doc;
-          doc.id = result.id;
-          doc.rev = result.rev;
+          doc.id = doc['_id'];
           return new TimeSchedule(doc);
         } else {
           return null;
@@ -35,7 +34,7 @@ export class StorageService {
       return this.http.put(DB_URL + "/" + timeSchedule.id, timeSchedule, {headers: this.defaultHeaders()})
         .map((res: Response): TimeSchedule => {
           if (res.ok) {
-            timeSchedule.rev = res['rev'];
+            timeSchedule._rev = res['rev'];
             return timeSchedule;
           } else {
             return null;

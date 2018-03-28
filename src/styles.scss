@@ -3,6 +3,13 @@ $fa-font-path: "../node_modules/font-awesome/fonts";
 @import "node_modules/font-awesome/scss/font-awesome";
 
 .apidae_date {
+  box-sizing: border-box;
+
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
   // Apidae theme colors - overrides Bootstrap defaults
   $primary: #5db0c7;
   $secondary: #a4bd52;
@@ -24,7 +31,6 @@ $fa-font-path: "../node_modules/font-awesome/fonts";
   @import "node_modules/bootstrap/scss/root";
   @import "node_modules/bootstrap/scss/print";
 
-  // CSS reboot (html and body tags)
   font-family: $font-family-base;
   font-size: $font-size-base;
   font-weight: $font-weight-base;
