@@ -1,4 +1,4 @@
-<img src="/src/assets/img/logo_apidae.svg" alt="logo apidae" style="width: 200px; float: right; padding-left: 20px;"/>
+<img src="/src/assets/img/logo_apidae.svg" alt="logo apidae" width="240px"/>
 
 # Apidae Date
 
