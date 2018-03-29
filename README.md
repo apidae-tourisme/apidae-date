@@ -64,6 +64,7 @@ Nom | Description | Contenu
 
 ### Exploitation
 A l'heure actuelle, l'API du module dispose de 2 points d'accès :
+
 Path | Description | Valeur de retour
 ------------ | ------------- | -------------
 {API_HOST}/by-external-id/{externalId} | Retourne la saisie Apidae Date correspondante | Saisie au format JSON (détails des champs ci-dessous)
