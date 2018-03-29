@@ -62,8 +62,28 @@ Nom | Description | Contenu
 *closingDays* | Liste des jours de fermeture exceptionnelle au format YYYY-MM-DD | Dates de fermeture exceptionnelle
 *userId* | Identifiant utilisateur | Id de l'utilisateur effectuant la saisie
 
+### Exploitation
+A l'heure actuelle, l'API du module dispose de 2 points d'accès :
+Path | Description | Valeur de retour
+------------ | ------------- | -------------
+{API_HOST}/by-external-id/{externalId} | Retourne la saisie Apidae Date correspondante | Saisie au format JSON (détails des champs ci-dessous)
+{API_HOST}/by-external-ref/{externalRef} | Retourne les identifiants externes des saisies Apidae Date correspondantes à cette réference | Liste d'identifiants externes (externalId)
 
-
+Exemple de réponse pour un appel du type `{API_HOST}/by-external-id/1234` :
+```json
+{
+  "id":"14261d51c3fabc81839e1aabaa000fa4",
+  "type":"apidae",
+  "externalId":"1234",
+  "externalType":"PATRIMOINE_CULTUREL",
+  "externalRef":"12345",
+  "startDate":"2018-01-01",
+  "endDate":"2018-12-31",
+  "timePeriods":[
+    {"type":"opening","weekdays":["SAT","SUN"],"timeFrames":[{"startTime":"12:35","endTime":null,"recurrence":null}]}
+  ]
+}   
+```
 
 
 ## Historique des changements
