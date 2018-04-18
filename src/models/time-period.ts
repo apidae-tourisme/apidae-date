@@ -7,6 +7,7 @@ export class TimePeriod {
   public type: any;
   public weekdays: string[];
   public timeFrames: TimeFrame[];
+  public labels: any;
 
   constructor(tp?) {
     if (tp) {
@@ -25,6 +26,18 @@ export class TimePeriod {
       this.addTimeFrame();
       this.addTimeFrame();
     }
+    // Mock labels for integration
+    this.labels = {
+      fr: "LABEL FR - " + this.type,
+      en: "LABEL EN - " + this.type,
+      de: "LABEL DE - " + this.type,
+      nl: "LABEL NL - " + this.type,
+      it: "LABEL IT - " + this.type,
+      es: "LABEL ES - " + this.type,
+      ru: "LABEL RU - " + this.type,
+      zh: "LABEL ZH - " + this.type,
+      'pt-br': "LABEL PT-BR - " + this.type
+    };
   }
 
   public static asForm(timePeriod, isModel): FormGroup {

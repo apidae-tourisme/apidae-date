@@ -15,15 +15,29 @@
       text-align: center;
     }
   </style>
+  <script>
+    function initOptions() {
+      return {
+        title: 'Objet test',
+        subtitle: 'Période du 01/01/2018 au 31/12/2018',
+        externalId: document.getElementById('external_id').value,
+        externalType: 'PATRIMOINE_CULTUREL',
+        type: 'apidae',
+        startDate: '2018-01-01',
+        endDate: '2018-12-31',
+        onSubmit: function() {console.log('Submit callback');},
+        onCancel: function() {console.log('Cancel callback');},
+        onDismiss: function() {console.log('Dismiss callback');}
+      };
+    }
+  </script>
 </head>
 <body style="background-color: #ccc;">
-  <div class="txtcenter">
-    <h1 class="txtcenter">Test intégration Apidae Date</h1>
-    <label for="external_id">Identifiant de la période d'ouverture : </label><input id="external_id" type="text" name="external_id"/>
-    <button type="button" onclick="window.initApidaeDate({title: 'Objet test', subtitle: 'Période du 01/01/2018 au 31/12/2018', externalId: document.getElementById('external_id').value, externalType: 'PATRIMOINE_CULTUREL', type: 'apidae', startDate: '2018-01-01', endDate: '2018-12-31'})">
-      Ouvrir
-    </button>
-  </div>
-  <apidate-form class="apidae_date"></apidate-form>
+<div class="txtcenter">
+  <h1 class="txtcenter">Test intégration Apidae Date</h1>
+  <label for="external_id">Identifiant de la période d'ouverture : </label><input id="external_id" type="text" name="external_id"/>
+  <button type="button" onclick="window.initApidaeDate(initOptions())">Ouvrir</button>
+</div>
+<apidate-form class="apidae_date"></apidate-form>
 </body>
 </html>

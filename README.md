@@ -35,7 +35,10 @@ Le fichier index.html comporte un exemple d'intégration du formulaire de saisie
           startDate: '2018-01-01', 
           endDate: '2018-12-31',
           closingDays: ['2018-05-01'],
-          userId: 123
+          userId: 123,
+          onSubmit: function() { ... },
+          onCancel: function() { ... },
+          onDismiss: function() { ... }
         }
       );
     })
@@ -61,6 +64,9 @@ Nom | Description | Contenu
 *endDate* | Fin de la période au format YYYY-MM-DD | Date de fin de la période d'ouverture
 *closingDays* | Liste des jours de fermeture exceptionnelle au format YYYY-MM-DD | Dates de fermeture exceptionnelle
 *userId* | Identifiant utilisateur | Id de l'utilisateur effectuant la saisie
+*onSubmit* | Callback "Valider" | Fonction rappelée lors de la soumission du formulaire
+*onCancel* | Callback "Annuler" | Fonction rappelée lors de l'annulation de la saisie
+*onDismiss* | Callback "Fermer" | Fonction rappelée lors de la fermeture de la fenêtre
 
 ### Exploitation
 A l'heure actuelle, l'API du module dispose de 2 points d'accès :
@@ -81,7 +87,13 @@ Exemple de réponse pour un appel du type `{API_HOST}/by-external-id/1234` :
   "startDate":"2018-01-01",
   "endDate":"2018-12-31",
   "timePeriods":[
-    {"type":"opening","weekdays":["SAT","SUN"],"timeFrames":[{"startTime":"12:35","endTime":null,"recurrence":null}]}
+    {
+      "type":"opening",
+      "weekdays":["SAT","SUN"],
+      "timeFrames":[{"startTime":"12:35","endTime":null,"recurrence":null}],
+      "labels": {"fr": "LIBELLE FR", "en": "LIBELLE EN", "nl": "LIBELLE NL"}
+    },
+    ...
   ]
 }   
 ```

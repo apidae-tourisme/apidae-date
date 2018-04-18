@@ -19,6 +19,8 @@ export class TimeScheduleComponent implements AfterViewInit, OnInit {
 
   public tsForm: FormGroup;
   public submitted = false;
+  public saveComplete = false;
+  public saveFailed = false;
 
   constructor(private fb: FormBuilder, private storageService: StorageService, public activeModal: NgbActiveModal) {
   }
@@ -48,11 +50,25 @@ export class TimeScheduleComponent implements AfterViewInit, OnInit {
         return new TimePeriod(tp);
       });
       this.storageService.saveSchedule(this.timeSchedule).subscribe((ts) => {
-        console.log('saved');
+        this.saveComplete = true;
+        this.saveFailed = false;
+        setTimeout(() => this.closeForm(), 5000);
       }, (err) => {
-        console.log('error');
+        this.saveFailed = true;
+        this.saveComplete = false;
+        console.log('error : ' + err);
       });
     }
+  }
+
+  public closeForm() {
+    this.dismissAlert();
+    this.activeModal.close('submit');
+  }
+
+  public dismissAlert() {
+    this.saveComplete = false;
+    this.saveFailed = false;
   }
 
   public addTimePeriod(idx, tp?): void {

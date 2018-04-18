@@ -33,8 +33,12 @@
     </div>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('cancel')">Annuler</button>
-    <button class="btn btn-primary text-white" type="submit">Valider</button>
+    <ngb-alert *ngIf="submitted && saveComplete" type="success" (close)="closeForm()">La saisie a bien été enregistrée.</ngb-alert>
+    <ngb-alert *ngIf="submitted && saveFailed" type="danger" (close)="dismissAlert()">Une erreur s'est produite lors de l'enregistrement de la saisie.</ngb-alert>
+    <ng-container *ngIf="!saveComplete && !saveFailed">
+      <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('cancel')">Annuler</button>
+      <button class="btn btn-primary text-white" type="submit">Valider</button>
+    </ng-container>
   </div>
 </form>
 

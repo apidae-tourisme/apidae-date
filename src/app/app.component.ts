@@ -23,24 +23,27 @@ export class AppComponent {
           if (clonedSchedule) {
             ts.mergeParams(clonedSchedule);
           }
-          this.initModal(initParams.title, initParams.subtitle, ts, initParams.onSubmit, initParams.onClose, initParams.onDismiss);
+          this.initModal(initParams.title, initParams.subtitle, ts, initParams.onSubmit, initParams.onCancel, initParams.onDismiss);
         });
       } else {
-        this.initModal(initParams.title, initParams.subtitle, ts, initParams.onSubmit, initParams.onClose, initParams.onDismiss);
+        this.initModal(initParams.title, initParams.subtitle, ts, initParams.onSubmit, initParams.onCancel, initParams.onDismiss);
       }
     });
   }
 
   private initModal(title, subtitle, timeSchedule, onSubmit, onCancel, onDismiss) {
-    let modalRef = this.modalService.open(TimeScheduleComponent, {windowClass: 'apidae_date', backdrop: false, keyboard: false});
+    let modalRef = this.modalService.open(TimeScheduleComponent, {windowClass: 'apidae_date', backdrop: 'static', keyboard: false});
     modalRef.result.then((result) => {
       if (result === 'submit' && onSubmit) {
+        console.log('Apidate - onSubmit');
         onSubmit();
       } else if (result === 'cancel' && onCancel) {
+        console.log('Apidate - onCancel');
         onCancel();
       }
     }, (reason) => {
       if (onDismiss) {
+        console.log('Apidate - onDismiss');
         onDismiss();
       }
     });

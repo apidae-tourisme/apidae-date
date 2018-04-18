@@ -1,6 +1,27 @@
 // Icons
 $fa-font-path: "../node_modules/font-awesome/fonts";
+
+// Apidae theme colors - overrides Bootstrap defaults
+$primary: #5db0c7;
+$secondary: #a4bd52;
+$success: #d9e8a9;
+$info: #7e7764;
+$warning: #f5c32e;
+$danger: #df7b7a;
+$light: #eceded;
+$dark: #282828;
+
+// Custom modal sizes
+$modal-lg: 960px;
+$modal-md: 720px;
+$modal-sm: 540px;
+
+// Bootstrap unscoped imports
 @import "node_modules/font-awesome/scss/font-awesome";
+@import "node_modules/bootstrap/scss/functions";
+@import "node_modules/bootstrap/scss/variables";
+@import "node_modules/bootstrap/scss/mixins";
+@import "node_modules/bootstrap/scss/modal";
 
 ngb-modal-window.apidae_date {
   box-sizing: border-box;
@@ -11,27 +32,6 @@ ngb-modal-window.apidae_date {
     box-sizing: border-box;
   }
 
-  // Apidae theme colors - overrides Bootstrap defaults
-  $primary: #5db0c7;
-  $secondary: #a4bd52;
-  $success: #d9e8a9;
-  $info: #7e7764;
-  $warning: #f5c32e;
-  $danger: #df7b7a;
-  $light: #eceded;
-  $dark: #282828;
-
-  $modal-lg: 960px;
-  $modal-md: 720px;
-  $modal-sm: 540px;
-
-  // Import Bootstrap defaults
-  @import "node_modules/bootstrap/scss/functions";
-  @import "node_modules/bootstrap/scss/variables";
-  @import "node_modules/bootstrap/scss/mixins";
-  @import "node_modules/bootstrap/scss/root";
-  @import "node_modules/bootstrap/scss/print";
-
   font-family: $font-family-base;
   font-size: $font-size-base;
   font-weight: $font-weight-base;
@@ -40,6 +40,11 @@ ngb-modal-window.apidae_date {
   text-align: left;
   outline: none;
 
+  &.d-block {
+    display: block !important;
+  }
+
+  // Bootstrap scoped imports
   @import "node_modules/bootstrap/scss/reboot";
   @import "node_modules/bootstrap/scss/type";
   @import "node_modules/bootstrap/scss/images";
@@ -64,7 +69,6 @@ ngb-modal-window.apidae_date {
   @import "node_modules/bootstrap/scss/media";
   @import "node_modules/bootstrap/scss/list-group";
   @import "node_modules/bootstrap/scss/close";
-  @import "node_modules/bootstrap/scss/modal";
   @import "node_modules/bootstrap/scss/tooltip";
   @import "node_modules/bootstrap/scss/popover";
   @import "node_modules/bootstrap/scss/carousel";
@@ -76,16 +80,25 @@ ngb-modal-window.apidae_date {
 
   // Overrides for Apidae integration
   &.modal {
-    width: 720px;
-    margin-left: -360px;
-    background-color: transparent;
-    border: none;
-    box-shadow: none;
-
     h2 {
       border-bottom: none;
       margin-bottom: inherit;
       padding-bottom: inherit;
+    }
+
+    .modal-header {
+      button.close {
+        padding: $modal-header-padding;
+      }
+    }
+
+    .modal-footer {
+      ngb-alert {
+        width: 100%;
+        > div {
+          margin-bottom: 0;
+        }
+      }
     }
   }
 
