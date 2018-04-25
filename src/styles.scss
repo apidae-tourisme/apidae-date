@@ -16,12 +16,29 @@ $modal-lg: 960px;
 $modal-md: 720px;
 $modal-sm: 540px;
 
-// Bootstrap unscoped imports
-@import "node_modules/font-awesome/scss/font-awesome";
+// Unscoped imports
 @import "node_modules/bootstrap/scss/functions";
 @import "node_modules/bootstrap/scss/variables";
 @import "node_modules/bootstrap/scss/mixins";
-@import "node_modules/bootstrap/scss/modal";
+
+// Root-level rules (from bootstrap/scss/modal)
+.modal-open {
+  overflow: hidden;
+}
+
+ngb-modal-backdrop.modal-backdrop {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: $zindex-modal-backdrop;
+  background-color: $modal-backdrop-bg;
+
+  // Fade for backdrop
+  &.fade { opacity: 0; }
+  &.show { opacity: $modal-backdrop-opacity; }
+}
 
 ngb-modal-window.apidae_date {
   box-sizing: border-box;
@@ -44,7 +61,31 @@ ngb-modal-window.apidae_date {
     display: block !important;
   }
 
+  &.modal {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: $zindex-modal;
+    display: none;
+    overflow: hidden;
+    // Prevent Chrome on Windows from adding a focus outline. For details, see
+    // https://github.com/twbs/bootstrap/pull/10951.
+    outline: 0;
+    // We deliberately don't use `-webkit-overflow-scrolling: touch;` due to a
+    // gnarly iOS Safari bug: https://bugs.webkit.org/show_bug.cgi?id=158342
+    // See also https://github.com/twbs/bootstrap/issues/17695
+
+    .modal-open & {
+      overflow-x: hidden;
+      overflow-y: auto;
+    }
+  }
+
   // Bootstrap scoped imports
+  @import "node_modules/font-awesome/scss/font-awesome";
+  @import "node_modules/bootstrap/scss/modal";
   @import "node_modules/bootstrap/scss/reboot";
   @import "node_modules/bootstrap/scss/type";
   @import "node_modules/bootstrap/scss/images";
