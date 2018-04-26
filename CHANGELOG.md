@@ -7,3 +7,8 @@ Version initiale
 Correctifs concernant l'intégration CSS de la fenêtre modale
 Documentation des fonctions de callback
 Ajout des libellés de chaque type de période (version "bouchonnée")
+
+## 0.1.4
+Ajustements des styles CSS pour limiter le risque de conflits avec l'application hôte
+Changement du préfixe pour les classes CSS Font Awesome
+Correction du problème de récupération d'une saisie existante en base de données

@@ -16,10 +16,14 @@ $modal-lg: 960px;
 $modal-md: 720px;
 $modal-sm: 540px;
 
+// Font Awesome custom prefix
+$fa-css-prefix: fapi;
+
 // Unscoped imports
 @import "node_modules/bootstrap/scss/functions";
 @import "node_modules/bootstrap/scss/variables";
 @import "node_modules/bootstrap/scss/mixins";
+@import "node_modules/font-awesome/scss/font-awesome";
 
 // Root-level rules (from bootstrap/scss/modal)
 .modal-open {
@@ -84,7 +88,6 @@ ngb-modal-window.apidae_date {
   }
 
   // Bootstrap scoped imports
-  @import "node_modules/font-awesome/scss/font-awesome";
   @import "node_modules/bootstrap/scss/modal";
   @import "node_modules/bootstrap/scss/reboot";
   @import "node_modules/bootstrap/scss/type";

@@ -4,7 +4,7 @@
       <div class="btn-group col-sm-1 pr-0">
         <button type="button" class="btn btn-primary text-white" (click)="collapsed = !collapsed"
                 [attr.aria-expanded]="!collapsed" aria-controls="collapsePeriod">
-          <i class="fa fa-lg {{collapsed ? 'fa-plus-square-o' : 'fa-minus-square-o'}}"></i>
+          <i class="fapi fapi-lg {{collapsed ? 'fapi-plus-square-o' : 'fapi-minus-square-o'}}"></i>
         </button>
       </div>
       <div *ngIf="!collapsed" ngbDropdown class="btn-group col-sm-9">
@@ -18,12 +18,12 @@
       </p>
       <div class="btn-group col-sm-1 p-0">
         <button type="button" class="btn btn-primary text-white" (click)="clone()">
-          <i class="fa fa-lg fa-clone"></i>
+          <i class="fapi fapi-lg fapi-clone"></i>
         </button>
       </div>
       <div class="btn-group col-sm-1 pl-0">
         <button type="button" class="btn btn-primary text-white" (click)="remove()">
-          <i class="fa fa-lg fa-trash-o"></i>
+          <i class="fapi fapi-lg fapi-trash-o"></i>
         </button>
       </div>
     </div>
@@ -58,10 +58,10 @@
             </div>
             <div class="col-sm-3 text-center">
               <button type="button" class="btn btn-primary text-white" (click)="addTimeFrame(j, tf.value)">
-                <i class="fa fa-clone"></i>
+                <i class="fapi fapi-clone"></i>
               </button>
               <button type="button" class="btn btn-danger text-white" (click)="timeFrames.removeAt(j)">
-                <i class="fa fa-trash-o"></i>
+                <i class="fapi fapi-trash-o"></i>
               </button>
             </div>
           </div>
