@@ -1,10 +1,10 @@
 import {AfterViewInit, Component, EventEmitter, Input, Output} from '@angular/core';
-import {PeriodType, Weekday} from "../shared/constants";
+import {PeriodType, Weekday} from "../../shared/constants";
 import {FormArray, FormBuilder, FormControl, FormGroup} from "@angular/forms";
-import {TimePeriod} from "../models/time-period";
-import {TimeFrame} from "../models/time-frame";
-import {TextsService} from "../services/texts.service";
-import {DomUtils} from "../shared/dom.utils";
+import {TimePeriod} from "../../models/time-period";
+import {TimeFrame} from "../../models/time-frame";
+import {TextsService} from "../../services/texts.service";
+import {DomUtils} from "../../shared/dom.utils";
 
 @Component({
   selector: 'apidate-time-period',

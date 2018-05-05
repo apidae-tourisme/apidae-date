@@ -51,6 +51,11 @@ ngb-timepicker {
 }
 
 apidate-time-schedule {
+
+  form {
+    margin: 0;
+  }
+
   form.submitted.ng-invalid {
 
     apidate-time-period {

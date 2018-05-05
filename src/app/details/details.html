@@ -1,0 +1,28 @@
+<div class="modal-header bg-primary">
+  <button type="button" class="close" aria-label="Fermer" (click)="activeModal.dismiss()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div *ngIf="timeSchedule">
+    <div class="row">
+      <div class="col-sm-8">
+        <h2 class="h4">{{title}}</h2>
+        <h3 class="h5 m-0">{{subtitle}}</h3>
+      </div>
+    </div>
+    <hr/>
+    <div *ngFor="let tp of timeSchedule.timePeriods" class="time-period card bg-light">
+      <div class="card-body">
+        {{timePeriodSummary(tp)}}
+      </div>
+    </div>
+    <p *ngIf="timeSchedule.timePeriods.length === 0" class="text-center mt-4 mb-4">
+      Aucune période saisie pour le moment.
+    </p>
+  </div>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('cancel')">Fermer</button>
+</div>
+

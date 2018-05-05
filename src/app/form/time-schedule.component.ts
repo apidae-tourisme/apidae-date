@@ -1,11 +1,11 @@
 import {AfterViewInit, Component, Input, OnInit, QueryList, ViewChildren} from '@angular/core';
-import {TimeSchedule} from "../models/time-schedule";
+import {TimeSchedule} from "../../models/time-schedule";
 import {TimePeriodComponent} from "./time-period.component";
 import {FormArray, FormBuilder, FormGroup} from "@angular/forms";
-import {DomUtils} from "../shared/dom.utils";
+import {DomUtils} from "../../shared/dom.utils";
 import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
-import {TimePeriod} from "../models/time-period";
-import {StorageService} from "../services/storage.service";
+import {TimePeriod} from "../../models/time-period";
+import {StorageService} from "../../services/storage.service";
 
 @Component({
   selector: 'apidate-time-schedule',
@@ -76,13 +76,13 @@ export class TimeScheduleComponent implements AfterViewInit, OnInit {
     DomUtils.setUpInteractions();
   }
 
+  public removeTimePeriod(idx): void {
+    this.timePeriods.removeAt(idx );
+  }
+
   public toggleAll(collapsed) {
     this.timePeriodComponents.forEach((tpc) => {
       tpc.collapsed = collapsed;
     });
-  }
-
-  public identifiers() {
-    return "Identifiant : " + this.timeSchedule.externalId;
   }
 }

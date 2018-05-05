@@ -31,7 +31,7 @@ Le fichier index.html comporte un exemple d'intégration du formulaire de saisie
           type: 'apidae', 
           externalId: document.getElementById('external_id').value, 
           externalType: 'PATRIMOINE_CULTUREL', 
-          externalReference: '1234', 
+          externalRef: '1234', 
           startDate: '2018-01-01', 
           endDate: '2018-12-31',
           closingDays: ['2018-05-01'],
@@ -59,7 +59,7 @@ Nom | Description | Contenu
 *type* | Référentiel de la saisie | 'apidae' pour la base Apidae
 *externalId* | Identifiant de l'objet auquel sera rattachée la saisie | Id de période d'ouverture 
 *externalType* | Type de l'objet auquel sera rattachée la saisie | Type d'objet touristique
-*externalReference* | Référence de l'objet auquel sera rattachée la saisie | Id d'objet touristique
+*externalRef* | Référence de l'objet auquel sera rattachée la saisie | Id d'objet touristique
 *startDate* | Début de la période au format YYYY-MM-DD | Date de début de la période d'ouverture
 *endDate* | Fin de la période au format YYYY-MM-DD | Date de fin de la période d'ouverture
 *closingDays* | Liste des jours de fermeture exceptionnelle au format YYYY-MM-DD | Dates de fermeture exceptionnelle
