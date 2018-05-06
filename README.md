@@ -10,7 +10,8 @@ A l'heure actuelle, le module comporte un formulaire de saisie des horaires lié
 Bien que le cas nominal soit de l'associer à un objet touristique Apidae, il peut théoriquement s'appliquer à tout type de période d'ouverture.
 
 ### Intégration
-Le fichier index.html comporte un exemple d'intégration du formulaire de saisie. Le code ci-dessous illustre un exemple d'intégration :
+Le fichier index.html comporte un exemple d'intégration du formulaire de saisie et de l'affichage en lecture seule.
+Le code ci-dessous illustre un exemple d'intégration :
 ```html
 <head>
   ...
@@ -18,24 +19,24 @@ Le fichier index.html comporte un exemple d'intégration du formulaire de saisie
 </head>
 <body>
   ...
-  <apidate-form class="apidae_date"></apidate-form>
   <script type="text/javascript" src="inline.bundle.js"></script>
   <script type="text/javascript" src="polyfills.bundle.js"></script>
   <script type="text/javascript" src="main.bundle.js"></script>
   <script type="text/javascript">
     window.addEventListener('load', function() {
-      window.initApidaeDate(
+      openApidateForm(
         {
           title: 'Objet test', 
           subtitle: 'Période du 01/01/2018 au 31/12/2018', 
           type: 'apidae', 
-          externalId: document.getElementById('external_id').value, 
+          externalId: '12345', 
           externalType: 'PATRIMOINE_CULTUREL', 
           externalRef: '1234', 
           startDate: '2018-01-01', 
           endDate: '2018-12-31',
           closingDays: ['2018-05-01'],
           userId: 123,
+          onLoad: function() { ... },
           onSubmit: function() { ... },
           onCancel: function() { ... },
           onDismiss: function() { ... }
@@ -45,9 +46,10 @@ Le fichier index.html comporte un exemple d'intégration du formulaire de saisie
   </script>
 </body>
 ```
+
 Fonction permettant l'initialisation du formulaire :
 ```javascript
-window.initApidaeDate(initParams);
+openApidateForm(formParams);
 ```
 
 Paramètres d'initialisation du formulaire :
@@ -64,9 +66,30 @@ Nom | Description | Contenu
 *endDate* | Fin de la période au format YYYY-MM-DD | Date de fin de la période d'ouverture
 *closingDays* | Liste des jours de fermeture exceptionnelle au format YYYY-MM-DD | Dates de fermeture exceptionnelle
 *userId* | Identifiant utilisateur | Id de l'utilisateur effectuant la saisie
+*onLoad* | Callback "Initialisation" | Fonction rappelée à l'issue du chargement du formulaire
 *onSubmit* | Callback "Valider" | Fonction rappelée lors de la soumission du formulaire
 *onCancel* | Callback "Annuler" | Fonction rappelée lors de l'annulation de la saisie
 *onDismiss* | Callback "Fermer" | Fonction rappelée lors de la fermeture de la fenêtre
+
+
+
+Fonction permettant d'afficher une saisie en lecture seule :
+```javascript
+openApidateDisplay(displayParams);
+```
+
+Paramètres d'initialisation de l'affichage :
+
+Nom | Description | Contenu
+------------ | ------------- | -------------
+*title* | Titre du formulaire | Nom de l'objet touristique 
+*subtitle* | Sous-titre du fomulaire | Descriptif de la période d'ouverture
+*type* | Référentiel de la saisie | 'apidae' pour la base Apidae
+*externalId* | Identifiant de l'objet auquel sera rattachée la saisie | Id de période d'ouverture 
+*onLoad* | Callback "Initialisation" | Fonction rappelée à l'issue du chargement de l'affichage
+*onCancel* | Callback "Annuler" | Fonction rappelée lors de l'annulation de l'affichage
+*onDismiss* | Callback "Fermer" | Fonction rappelée lors de la fermeture de la fenêtre
+
 
 ### Exploitation
 A l'heure actuelle, l'API du module dispose de 2 points d'accès :
@@ -92,8 +115,7 @@ Exemple de réponse pour un appel du type `{API_HOST}/by-external-id/1234` :
       "weekdays":["SAT","SUN"],
       "timeFrames":[{"startTime":"12:35","endTime":null,"recurrence":null}],
       "labels": {"fr": "LIBELLE FR", "en": "LIBELLE EN", "nl": "LIBELLE NL"}
-    },
-    ...
+    }
   ]
 }   
 ```
@@ -105,7 +127,7 @@ Voir le fichier [CHANGELOG](/CHANGELOG.md)
 ## Développement
 ### Environnement technique
   - Angular 5.x
-  - Boostrap 4 via ng-bootstrap (https://ng-bootstrap.github.io)
+  - Bootstrap 4 via ng-bootstrap (https://ng-bootstrap.github.io)
   - Apache CouchDB
   
 ### Mise en place de l'environnement

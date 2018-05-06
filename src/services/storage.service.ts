@@ -15,16 +15,16 @@ export class StorageService {
   constructor(private http: HttpClient) {
   }
 
-  public getSchedule(type, externalId): Observable<TimeSchedule> {
+  public getSchedule(initParams): Observable<TimeSchedule> {
     return this.http.get(DB_URL + StorageService.BY_EXTERNAL_ID + '?include_docs=true', {headers: this.defaultHeaders(),
-      params: {key: '["' + type + '","' + externalId + '"]'}}).map((res: Response): TimeSchedule => {
+      params: {key: '["' + initParams.type + '","' + initParams.externalId + '"]'}}).map((res: Response): TimeSchedule => {
         if (res['rows'].length > 0) {
           let result = res['rows'][0];
           let doc = result.doc;
           doc.id = doc['_id'];
-          return new TimeSchedule(doc);
+          return TimeSchedule.buildFrom(doc, initParams);
         } else {
-          return null;
+          return TimeSchedule.buildFrom(initParams);
         }
       }).catch(this.handleError);
   }

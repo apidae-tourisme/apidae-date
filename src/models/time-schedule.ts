@@ -13,21 +13,16 @@ export class TimeSchedule {
   public timePeriods: TimePeriod[];
   public closingDays: string[];
 
-  constructor(initParams) {
-    this.mergeParams(initParams);
+  constructor() {
+    this.timePeriods = [new TimePeriod()];
   }
 
-  public mergeParams(initParams) {
-    this.id = this.id || initParams.id;
-    this._rev = this._rev || initParams._rev;
-    this.type = initParams.type;
-    this.externalId = this.externalId || initParams.externalId;
-    this.externalType = initParams.externalType;
-    this.externalRef = initParams.externalRef;
-    this.startDate = initParams.startDate;
-    this.endDate = initParams.endDate;
-    this.userId = initParams.userId;
-    this.timePeriods = initParams.timePeriods || [new TimePeriod()];
-    this.closingDays = initParams.closingDays;
+  public static buildFrom(initValues, overrides?): TimeSchedule {
+    let ts = new TimeSchedule();
+    ts = {...ts, ...initValues};
+    if (overrides) {
+      ts = {...ts, ...overrides};
+    }
+    return ts;
   }
 }

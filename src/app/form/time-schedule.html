@@ -6,7 +6,6 @@
 <form id="time_schedule_form" [formGroup]="tsForm" (ngSubmit)="onSubmit()" #scheduleForm="ngForm" [class.submitted]="submitted">
   <div class="modal-body">
     <div *ngIf="timeSchedule">
-      <div>{{timeSchedule | json}}</div>
       <div class="row">
         <div class="col-sm-8">
           <h2 class="h4">{{title}}</h2>

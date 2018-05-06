@@ -21,20 +21,9 @@ export class ModalComponent {
   constructor(@Inject(INIT_PARAMS) initParams: Params, private route: ActivatedRoute, private modalService: NgbModal,
               private storageService: StorageService) {
     let contentComponent = modalComponents[this.route.snapshot.paramMap.get('content')];
-    this.storageService.getSchedule(initParams.type, initParams.externalId).subscribe((timeSchedule: TimeSchedule) => {
-      let ts = timeSchedule || new TimeSchedule(initParams);
-      if (initParams.cloneId) {
-        this.storageService.getSchedule(initParams.type, initParams.cloneId).subscribe((clonedSchedule: TimeSchedule) => {
-          if (clonedSchedule) {
-            ts.mergeParams(clonedSchedule);
-          }
-          this.initModal(contentComponent, initParams.title, initParams.subtitle, ts, initParams.onSubmit,
-            initParams.onCancel, initParams.onDismiss, initParams.onLoad);
-        });
-      } else {
-        this.initModal(contentComponent, initParams.title, initParams.subtitle, ts, initParams.onSubmit,
-          initParams.onCancel, initParams.onDismiss, initParams.onLoad);
-      }
+    this.storageService.getSchedule(initParams).subscribe((timeSchedule: TimeSchedule) => {
+      this.initModal(contentComponent, initParams.title, initParams.subtitle, timeSchedule, initParams.onSubmit,
+        initParams.onCancel, initParams.onDismiss, initParams.onLoad);
     });
   }
 
