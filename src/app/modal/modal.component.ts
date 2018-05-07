@@ -1,10 +1,9 @@
-import {Component, Inject, ViewChild} from '@angular/core';
+import {Component, Inject, PlatformRef, ViewChild} from '@angular/core';
 import {ActivatedRoute, Params} from "@angular/router";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {INIT_PARAMS} from "../app.config";
 import {StorageService} from "../../services/storage.service";
 import {TimeSchedule} from "../../models/time-schedule";
-import {platformBrowserDynamic} from "@angular/platform-browser-dynamic";
 import {DetailsComponent} from "../details/details.component";
 import {TimeScheduleComponent} from "../form/time-schedule.component";
 import 'rxjs/add/operator/switchMap';
@@ -19,7 +18,7 @@ export class ModalComponent {
   @ViewChild('content') content;
 
   constructor(@Inject(INIT_PARAMS) initParams: Params, private route: ActivatedRoute, private modalService: NgbModal,
-              private storageService: StorageService) {
+              private storageService: StorageService, private platform: PlatformRef) {
     let contentComponent = modalComponents[this.route.snapshot.paramMap.get('content')];
     this.storageService.getSchedule(initParams).subscribe((timeSchedule: TimeSchedule) => {
       this.initModal(contentComponent, initParams.title, initParams.subtitle, timeSchedule, initParams.onSubmit,
@@ -47,7 +46,7 @@ export class ModalComponent {
         onDismiss();
       }
     }).then(() => {
-      platformBrowserDynamic().destroy();
+      this.platform.destroy();
     });
 
     modalRef.componentInstance.title = title;
