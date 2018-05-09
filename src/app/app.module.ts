@@ -5,6 +5,10 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {ConfigModule} from "./config/config.module";
 import {AppRoutingModule} from "./app-routing.module";
 import {ModalModule} from "./modal/modal.module";
+import {LoginModule} from "./login/login.module";
+import {HomeModule} from "./home/home.module";
+import {TextsService} from "../services/texts.service";
+import {StorageService} from "../services/storage.service";
 
 @NgModule({
   declarations: [
@@ -13,10 +17,13 @@ import {ModalModule} from "./modal/modal.module";
   imports: [
     NgbModule.forRoot(),
     BrowserModule,
+    HomeModule,
+    LoginModule,
     ConfigModule,
     ModalModule,
     AppRoutingModule
   ],
+  providers: [TextsService, StorageService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

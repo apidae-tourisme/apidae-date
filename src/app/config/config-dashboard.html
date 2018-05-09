@@ -1,0 +1,16 @@
+<div *ngFor="let conf of configs" class="card">
+  <div class="card-header">
+    <h4 class="m-0">{{conf.description}}</h4>
+    <small>Mise à jour le {{timeLabel(conf.updatedAt)}} par {{conf.updatedBy}}</small>
+  </div>
+  <div class="card-body">
+    <p class="lead mb-0">
+      <a class="btn btn-outline-primary" routerLink="{{conf.type}}/types-horaires" role="button">
+        Gérer les types d'horaires
+      </a>
+      <a class="btn btn-outline-secondary" routerLink="{{conf.type}}/types-entites" role="button">
+        Gérer les types d'entités
+      </a>
+    </p>
+  </div>
+</div>

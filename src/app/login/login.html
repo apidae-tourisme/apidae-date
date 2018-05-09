@@ -1,0 +1,13 @@
+<div class="jumbotron">
+  <h1 class="display-4">Authentification</h1>
+  <hr class="my-4">
+  <p>{{redirecting ? 'Redirection en cours, veuillez patienter...' : 'Veuillez vous authentifier pour accéder à la configuration.'}}</p>
+  <p *ngIf="!redirecting" class="lead">
+    <a class="btn btn-outline-primary btn-lg" (click)="logIn()" tabindex="" role="button">
+      <i class="fapi fapi-lg fapi-unlock-alt pr-2"></i>Authentification Apidae
+    </a>
+    <a class="btn btn-outline-info btn-lg" routerLink="/" role="button">
+      <i class="fapi fapi-lg fapi-home pr-2"></i>Retour
+    </a>
+  </p>
+</div>

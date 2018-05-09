@@ -99,3 +99,18 @@ apidate-time-schedule {
     }
   }
 }
+
+apidate-config {
+
+  form.ng-invalid {
+
+    .form-group.ng-invalid {
+      position: relative;
+      border-color: $danger;
+
+      .form-control.ng-invalid {
+        border-color: $danger;
+      }
+    }
+  }
+}

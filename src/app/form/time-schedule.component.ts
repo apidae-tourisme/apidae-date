@@ -77,7 +77,7 @@ export class TimeScheduleComponent implements AfterViewInit, OnInit {
   }
 
   public removeTimePeriod(idx): void {
-    this.timePeriods.removeAt(idx );
+    this.timePeriods.removeAt(idx);
   }
 
   public toggleAll(collapsed) {

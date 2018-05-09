@@ -6,7 +6,6 @@ import {StorageService} from "../../services/storage.service";
 import {TimeSchedule} from "../../models/time-schedule";
 import {DetailsComponent} from "../details/details.component";
 import {TimeScheduleComponent} from "../form/time-schedule.component";
-import 'rxjs/add/operator/switchMap';
 
 const modalComponents = {form: TimeScheduleComponent, details: DetailsComponent};
 

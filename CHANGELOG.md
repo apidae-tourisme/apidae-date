@@ -12,3 +12,8 @@ Ajout des libellés de chaque type de période (version "bouchonnée")
 Ajustements des styles CSS pour limiter le risque de conflits avec l'application hôte
 Changement du préfixe pour les classes CSS Font Awesome
 Correction du problème de récupération d'une saisie existante en base de données
+
+
+## 0.2.0
+Divers correctifs
+Ajout d'un accès aux saisies en mode consultation uniquement 

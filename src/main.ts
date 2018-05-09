@@ -9,7 +9,7 @@ if (environment.production) {
   enableProdMode();
 }
 
-function initApp(initData: any, defaultState: string) {
+function initApp(initData: any, defaultState: string[]) {
   platformBrowserDynamic([
     {provide: INIT_PARAMS, useValue: initData},
     {provide: DEFAULT_STATE, useValue: defaultState}
@@ -24,15 +24,15 @@ function initTag() {
 }
 
 if (document.getElementsByTagName('apidate-root').length > 0) {
-  initApp({}, '/accueil');
+  initApp({}, null);
 } else {
   window['openApidateForm'] = function (initData: any) {
     initTag();
-    initApp(initData, 'form');
+    initApp(initData, ['/modal', 'form', initData.type, initData.externalId]);
   };
 
   window['openApidateDisplay'] = function (initData: any) {
     initTag();
-    initApp(initData, 'details');
+    initApp(initData, ['/modal', 'details', initData.type, initData.externalId]);
   };
 }

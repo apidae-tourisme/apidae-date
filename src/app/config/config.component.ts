@@ -2,8 +2,11 @@ import {Component} from "@angular/core";
 
 @Component({
   selector: 'apidate-config',
-  templateUrl: 'config.html'
+  template: `
+    <h2 class="mt-4 font-weight-light">Apidae Date - Configuration</h2>
+    <hr class="my-4"/>
+    <router-outlet></router-outlet>
+  `
 })
 export class ConfigComponent {
-
 }
