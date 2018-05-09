@@ -1,6 +1,50 @@
-<h2 class="mt-4 font-weight-light">{{config.label}} - Gestion des types d'entités</h2>
-<!--<div *ngFor="let extType of config.externalTypes" class="card">-->
-  <!--<div class="card-body">-->
-    <!--<p></p>-->
-  <!--</div>-->
-<!--</div>-->
+<h3 class="mt-4 mb-1">Gestion des types d'entités</h3>
+<div *ngIf="config">
+  <h5 class="m-0 font-weight-light">{{config.description}}</h5>
+  <form id="config_form" [formGroup]="configForm" (ngSubmit)="onSubmit()" class="mb-4">
+    <div formArrayName="externalTypes" class="mt-3">
+      <div *ngFor="let tp of externalTypes.controls; let i = index" class="card mt-4">
+        <div [formGroup]="tp" class="form-group mb-0 card-body">
+          <div class="row">
+            <div class="form-group col-sm-6">
+              <label for="tp-desc-{{i}}" class="font-weight-bold">Nom<sup>*</sup></label>
+              <input type="text" class="form-control" formControlName="description" id="tp-desc-{{i}}" aria-describedby="descHelp" placeholder="Ex : Patrimoine culturel, Activité...">
+              <small id="descHelp" class="form-text text-muted">Nom courant pour l'usage du type d'entité (interne à l'application).</small>
+            </div>
+            <div class="form-group col-sm-6">
+              <label for="tp-ref-{{i}}" class="font-weight-bold">Référence<sup>*</sup></label>
+              <input type="text" class="form-control" formControlName="reference" id="tp-ref-{{i}}" aria-describedby="refHelp" placeholder="Ex : PATRIMOINE_CULTUREL, ACTIVITE...">
+              <small id="refHelp" class="form-text text-muted">Clé permettant d'identifier le type d'entité lorsqu'il est transmis par des systèmes tiers.</small>
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-sm-12">
+              <label class="font-weight-bold">Types d'horaires</label><br/>
+              <div class="btn-group" data-toggle="buttons">
+                <label *ngFor="let tpt of config.timePeriodsTypes" class="btn-outline-primary col mb-0" ngbButtonLabel>
+                  <input type="checkbox" ngbButton [formControl]="tp.get('timePeriodsTypes').get(tpt.reference)">{{tpt.description}}
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p *ngIf="externalTypes.controls.length === 0" class="text-center mt-4 mb-4">
+      Aucun type d'entité saisi pour le moment.
+    </p>
+    <div class="text-right mt-3">
+      <button class="btn btn-secondary" type="button" (click)="addExternalType(externalTypes.controls.length)">
+        Ajouter un type d'entité
+      </button>
+    </div>
+    <hr class="my-4"/>
+    <ngb-alert *ngIf="submitted && saveComplete" type="success" (close)="dismissAlert()">La saisie a bien été enregistrée.</ngb-alert>
+    <ngb-alert *ngIf="submitted && saveFailed" type="danger" (close)="dismissAlert()">Une erreur s'est produite lors de l'enregistrement de la saisie.</ngb-alert>
+    <div class="text-right">
+      <a class="btn btn-outline-dark" routerLink="/config">Retour</a>
+      <button class="btn btn-primary text-white" type="submit">Valider</button>
+    </div>
+  </form>
+</div>
+

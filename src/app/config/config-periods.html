@@ -4,7 +4,20 @@
   <form id="config_form" [formGroup]="configForm" (ngSubmit)="onSubmit()" class="mb-4">
       <div formArrayName="timePeriodsTypes" class="mt-3">
         <div *ngFor="let tp of timePeriodsTypes.controls; let i = index" class="card mt-4">
-          <div [formGroup]="tp" class="form-group mb-0 card-body">
+          <div class="card-header bg-primary" [class.collapsed_header]="collapsed[i]">
+            <div class="row align-items-center">
+              <div class="btn-group col-sm-1 pr-0">
+                <button type="button" class="btn btn-primary text-white" (click)="collapsed[i] = !collapsed[i]"
+                        [attr.aria-expanded]="!collapsed[i]" [attr.aria-controls]="'collapsePeriodType-' + i">
+                  <i class="fapi fapi-lg {{collapsed[i] ? 'fapi-plus-square-o' : 'fapi-minus-square-o'}}"></i>
+                </button>
+              </div>
+              <p *ngIf="collapsed[i]" class="tp_text col-sm-9 text-white m-0">
+                {{tp.get('description').value}}
+              </p>
+            </div>
+          </div>
+          <div id="collapsePeriod-{{i}}" [ngbCollapse]="collapsed[i]" [formGroup]="tp" class="form-group mb-0 card-body">
             <div class="row">
               <div class="form-group col-sm-6">
                 <label for="tp-desc-{{i}}" class="font-weight-bold">Nom<sup>*</sup></label>
@@ -17,9 +30,44 @@
                 <small id="refHelp" class="form-text text-muted">Identifiant technique permettant d'identifier le type d'horaire, sans accent ni espace ou caractère spécial.</small>
               </div>
             </div>
+            <div class="row align-items-end">
+              <div class="form-group col-sm-6">
+                <label class="font-weight-bold">Saisie des horaires</label><br/>
+                <div class="btn-group btn-group-toggle" ngbRadioGroup name="singleTimeRadio" formControlName="isSingleTime">
+                  <label ngbButtonLabel class="btn-outline-primary">
+                    <input ngbButton type="radio" [value]="true">Début uniquement
+                  </label>
+                  <label ngbButtonLabel class="btn-outline-primary">
+                    <input ngbButton type="radio" [value]="false">Début et fin
+                  </label>
+                </div>
+              </div>
+              <div class="form-group col-sm-6">
+                <label class="font-weight-bold">Saisie de la récurrence</label><br/>
+                <div class="btn-group btn-group-toggle" ngbRadioGroup name="recurringRadio" formControlName="isRecurring">
+                  <label ngbButtonLabel class="btn-outline-primary">
+                    <input ngbButton type="radio" [value]="true">Récurrence
+                  </label>
+                  <label ngbButtonLabel class="btn-outline-primary">
+                    <input ngbButton type="radio" [value]="false">Pas de récurrence
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div class="row align-items-end" [formGroup]="tp.get('summary')">
+              <div class="form-group col-sm-6">
+                <label class="font-weight-bold">Résumé<sup>*</sup></label>
+                <input type="text" class="form-control" formControlName="singular" aria-describedby="singularHelp" placeholder="Ex: Ouverture, visite guidée...">
+                <small id="singularHelp" class="form-text text-muted">Utilisé pour la génération du résumé (un seul horaire)</small>
+              </div>
+              <div class="form-group col-sm-6">
+                <input type="text" class="form-control" formControlName="plural" aria-describedby="pluralHelp" placeholder="Ex: Ouverture, visites guidées...">
+                <small id="pluralHelp" class="form-text text-muted">Utilisé pour la génération du résumé (plusieurs horaires)</small>
+              </div>
+            </div>
             <div class="row align-items-end" [formGroup]="tp.get('labels')">
               <div *ngFor="let lang of allLangs(); let j = index" class="form-group col-sm-6">
-                <label *ngIf="j === 0" class="font-weight-bold">Libellés</label>
+                <label *ngIf="j === 0" class="font-weight-bold">Libellés (exploitation)</label>
                 <div class="input-group">
                   <div class="input-group-prepend">
                     <span class="input-group-text">{{lang.toUpperCase()}}</span>
@@ -31,7 +79,7 @@
           </div>
         </div>
       </div>
-    <p *ngIf="config.timePeriodsTypes.length === 0" class="text-center mt-4 mb-4">
+    <p *ngIf="timePeriodsTypes.controls.length === 0" class="text-center mt-4 mb-4">
       Aucun type d'horaire saisi pour le moment.
     </p>
     <div class="text-right mt-3">
@@ -43,7 +91,7 @@
     <ngb-alert *ngIf="submitted && saveComplete" type="success" (close)="dismissAlert()">La saisie a bien été enregistrée.</ngb-alert>
     <ngb-alert *ngIf="submitted && saveFailed" type="danger" (close)="dismissAlert()">Une erreur s'est produite lors de l'enregistrement de la saisie.</ngb-alert>
     <div class="text-right">
-        <a class="btn btn-outline-dark" routerLink="/config">Annuler</a>
+        <a class="btn btn-outline-dark" routerLink="/config">Retour</a>
         <button class="btn btn-primary text-white" type="submit">Valider</button>
     </div>
   </form>

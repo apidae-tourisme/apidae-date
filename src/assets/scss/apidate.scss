@@ -44,9 +44,14 @@ ngb-timepicker {
   }
 }
 
-.weekdays {
-  input[type="checkbox"] {
-    display: none;
+input[type="checkbox"][ngbButton] {
+  display: none;
+}
+
+.card {
+  .card-header.collapsed_header:first-child {
+    @include border-radius($card-inner-border-radius $card-inner-border-radius $card-inner-border-radius $card-inner-border-radius);
+    border-bottom: none;
   }
 }
 

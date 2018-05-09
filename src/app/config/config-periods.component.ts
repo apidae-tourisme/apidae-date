@@ -17,6 +17,7 @@ export class ConfigPeriodsComponent implements OnInit {
   public submitted = false;
   public saveComplete = false;
   public saveFailed = false;
+  public collapsed = [];
 
   constructor(private fb: FormBuilder, private storageService: StorageService, private authService: AuthService,
               private route: ActivatedRoute) {
@@ -27,6 +28,7 @@ export class ConfigPeriodsComponent implements OnInit {
     this.storageService.getConfig(this.configType).subscribe((conf: TypeConfig) => {
       this.config = conf;
       this.createForm();
+      this.collapsed = this.timePeriodsTypes.controls.map((tpt) => true);
     });
   }
 
@@ -42,7 +44,7 @@ export class ConfigPeriodsComponent implements OnInit {
       this.config.timePeriodsTypes = this.configForm.value.timePeriodsTypes.map((tpt) => {
         return new TimePeriodType(tpt);
       });
-      this.storageService.saveConfig(this.config).subscribe((ts) => {
+      this.storageService.saveConfig(this.config).subscribe((conf) => {
         this.saveComplete = true;
         this.saveFailed = false;
       }, (err) => {

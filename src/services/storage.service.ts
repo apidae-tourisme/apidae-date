@@ -64,14 +64,6 @@ export class StorageService {
     return this.http.get(DB_URL + "/" + TypeConfig.id(configType), {headers: this.defaultHeaders()})
       .map((res: Response): TypeConfig => {
         return TypeConfig.buildFrom(res);
-      // if (res['rows'].length > 0) {
-      //   let result = res['rows'][0];
-      //   let doc = result.doc;
-      //   doc.id = doc['_id'];
-      //   return new TypeConfig(doc);
-      // } else {
-      //   return TimeSchedule.buildFrom(initParams);
-      // }
     }).catch(this.handleError);
   }
 
