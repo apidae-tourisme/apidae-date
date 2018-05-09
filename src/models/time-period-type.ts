@@ -13,7 +13,7 @@ export class TimePeriodType {
       this.reference = tpt.reference;
       this.description = tpt.description;
       this.isRecurring = tpt.isRecurring || false;
-      this.isSingleTime = tpt.isContinuous || false;
+      this.isSingleTime = tpt.isSingleTime || false;
       this.summary = tpt.summary ? {...tpt.summary} : {singular: '', plural: ''};
       this.labels = {...tpt.labels};
     } else {

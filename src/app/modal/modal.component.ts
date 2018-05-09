@@ -6,6 +6,7 @@ import {StorageService} from "../../services/storage.service";
 import {TimeSchedule} from "../../models/time-schedule";
 import {DetailsComponent} from "../details/details.component";
 import {TimeScheduleComponent} from "../form/time-schedule.component";
+import {TypeConfig} from "../../models/type-config";
 
 const modalComponents = {form: TimeScheduleComponent, details: DetailsComponent};
 
@@ -19,13 +20,15 @@ export class ModalComponent {
   constructor(@Inject(INIT_PARAMS) initParams: Params, private route: ActivatedRoute, private modalService: NgbModal,
               private storageService: StorageService, private platform: PlatformRef) {
     let contentComponent = modalComponents[this.route.snapshot.paramMap.get('content')];
-    this.storageService.getSchedule(initParams).subscribe((timeSchedule: TimeSchedule) => {
-      this.initModal(contentComponent, initParams.title, initParams.subtitle, timeSchedule, initParams.onSubmit,
-        initParams.onCancel, initParams.onDismiss, initParams.onLoad);
+    this.storageService.getConfig(initParams.type).subscribe((config: TypeConfig) => {
+      this.storageService.getSchedule(config, initParams).subscribe((timeSchedule: TimeSchedule) => {
+        this.initModal(contentComponent, config, initParams.title, initParams.subtitle, timeSchedule, initParams.onSubmit,
+          initParams.onCancel, initParams.onDismiss, initParams.onLoad);
+      });
     });
   }
 
-  private initModal(contentComponent, title, subtitle, timeSchedule, onSubmit, onCancel, onDismiss, onLoad) {
+  private initModal(contentComponent, config, title, subtitle, timeSchedule, onSubmit, onCancel, onDismiss, onLoad) {
     let modalRef = this.modalService.open(contentComponent, {windowClass: 'apidae_date', backdrop: 'static', keyboard: false});
     if (modalRef && onLoad) {
       console.log('Apidate - onLoad');
@@ -50,6 +53,7 @@ export class ModalComponent {
 
     modalRef.componentInstance.title = title;
     modalRef.componentInstance.subtitle = subtitle;
+    modalRef.componentInstance.config = config;
     modalRef.componentInstance.timeSchedule = timeSchedule;
   }
 }

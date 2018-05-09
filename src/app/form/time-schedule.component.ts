@@ -6,6 +6,7 @@ import {DomUtils} from "../../shared/dom.utils";
 import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
 import {TimePeriod} from "../../models/time-period";
 import {StorageService} from "../../services/storage.service";
+import {TypeConfig} from "../../models/type-config";
 
 @Component({
   selector: 'apidate-time-schedule',
@@ -13,6 +14,7 @@ import {StorageService} from "../../services/storage.service";
 })
 export class TimeScheduleComponent implements AfterViewInit, OnInit {
   @Input() timeSchedule: TimeSchedule;
+  @Input() config: TypeConfig;
   @Input() title: string;
   @Input() subtitle: string;
   @ViewChildren(TimePeriodComponent) timePeriodComponents: QueryList<TimePeriodComponent>;
@@ -35,7 +37,7 @@ export class TimeScheduleComponent implements AfterViewInit, OnInit {
 
   private createForm() {
     this.tsForm = new FormGroup({}, {updateOn: 'submit'});
-    let groups = this.timeSchedule.timePeriods.map(tp => TimePeriod.asForm(tp, true));
+    let groups = this.timeSchedule.timePeriods.map(tp => TimePeriod.asForm(tp, this.config, true));
     this.tsForm.setControl('timePeriods', this.fb.array(groups));
   }
 
@@ -47,7 +49,7 @@ export class TimeScheduleComponent implements AfterViewInit, OnInit {
     this.submitted = true;
     if (this.tsForm.valid) {
       this.timeSchedule.timePeriods = this.tsForm.value.timePeriods.map((tp) => {
-        return new TimePeriod(tp);
+        return new TimePeriod(this.config, tp);
       });
       this.storageService.saveSchedule(this.timeSchedule).subscribe((ts) => {
         this.saveComplete = true;
@@ -72,7 +74,7 @@ export class TimeScheduleComponent implements AfterViewInit, OnInit {
   }
 
   public addTimePeriod(idx, tp?): void {
-    this.timePeriods.insert(idx, TimePeriod.asForm(tp || new TimePeriod(), false));
+    this.timePeriods.insert(idx, TimePeriod.asForm(tp || new TimePeriod(this.config), this.config, false));
     DomUtils.setUpInteractions();
   }
 

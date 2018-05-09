@@ -32,4 +32,8 @@ export class TypeConfig {
   public static id(configType) {
     return TypeConfig.ID_PREFIX + configType;
   }
+
+  public timePeriodType(ref) {
+    return this.timePeriodsTypes.filter((tpt) => tpt.reference === ref)[0];
+  }
 }

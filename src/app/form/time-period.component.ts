@@ -1,10 +1,12 @@
 import {AfterViewInit, Component, EventEmitter, Input, Output} from '@angular/core';
-import {PeriodType, Weekday} from "../../shared/constants";
+import {Weekday} from "../../shared/constants";
 import {FormArray, FormBuilder, FormControl, FormGroup} from "@angular/forms";
 import {TimePeriod} from "../../models/time-period";
 import {TimeFrame} from "../../models/time-frame";
 import {TextsService} from "../../services/texts.service";
 import {DomUtils} from "../../shared/dom.utils";
+import {TypeConfig} from "../../models/type-config";
+import {TimePeriodType} from "../../models/time-period-type";
 
 @Component({
   selector: 'apidate-time-period',
@@ -12,6 +14,7 @@ import {DomUtils} from "../../shared/dom.utils";
 })
 export class TimePeriodComponent implements AfterViewInit {
   @Input() tpForm: FormGroup;
+  @Input() config: TypeConfig;
   @Input() tp: TimePeriod;
   @Input() rank: number;
   @Output() cloned = new EventEmitter();
@@ -28,7 +31,7 @@ export class TimePeriodComponent implements AfterViewInit {
   bindTypeChange() {
     this.tpType.valueChanges.forEach((val) => {
       this.tpForm.setControl('timeFrames', this.fb.array(
-        this.timeFrames.value.map((tf) => TimeFrame.asForm(val, tf, false))
+        this.timeFrames.value.map((tf) => TimeFrame.asForm(this.config.timePeriodType(val), tf, false))
       ));
       DomUtils.setUpInteractions();
     });
@@ -46,8 +49,8 @@ export class TimePeriodComponent implements AfterViewInit {
     return this.tpForm.get('timeFrames') as FormArray;
   }
 
-  public allTypes(): Array<any> {
-    return PeriodType.ALL_TYPES;
+  public allTypes(): Array<TimePeriodType> {
+    return this.config.timePeriodsTypes;
   }
 
   public weekdays(): any[] {
@@ -74,11 +77,19 @@ export class TimePeriodComponent implements AfterViewInit {
   }
 
   public hasSingleTime(): boolean {
-    return this.tpForm && this.tpType.value === PeriodType.LAST_ENTRY.ref;
+    return this.tpForm && this.config.timePeriodType(this.tpType.value).isSingleTime;
   }
 
   public addTimeFrame(idx, tf?) {
-    this.timeFrames.insert(idx, TimeFrame.asForm(this.tpType.value, tf || new TimeFrame(), false));
+    this.timeFrames.insert(idx, TimeFrame.asForm(this.config.timePeriodType(this.tpType.value), tf || new TimeFrame(), false));
     DomUtils.setUpInteractions();
+  }
+
+  public timePeriodDesc() {
+    return this.texts.timePeriod(this.config, this.tpForm.value);
+  }
+
+  public tpTypeDesc(ref) {
+    return this.texts.tpType(this.config, ref);
   }
 }

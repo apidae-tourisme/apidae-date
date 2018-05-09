@@ -13,12 +13,12 @@ export class TimeSchedule {
   public timePeriods: TimePeriod[];
   public closingDays: string[];
 
-  constructor() {
-    this.timePeriods = [new TimePeriod()];
+  constructor(config) {
+    this.timePeriods = [new TimePeriod(config)];
   }
 
-  public static buildFrom(initValues, overrides?): TimeSchedule {
-    let ts = new TimeSchedule();
+  public static buildFrom(config, initValues, overrides?): TimeSchedule {
+    let ts = new TimeSchedule(config);
     ts = {...ts, ...initValues};
     if (overrides) {
       ts = {...ts, ...overrides};

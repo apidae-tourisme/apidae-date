@@ -17,3 +17,7 @@ Correction du problème de récupération d'une saisie existante en base de donn
 ## 0.2.0
 Divers correctifs
 Ajout d'un accès aux saisies en mode consultation uniquement 
+
+
+## 0.2.1
+Ajout de la partie administration

@@ -1,5 +1,4 @@
 import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {PeriodType} from "../shared/constants";
 
 export class TimeFrame {
 
@@ -16,15 +15,12 @@ export class TimeFrame {
   }
 
   public static asForm(periodType, timeFrame, isModel): FormGroup {
-    let singleTime = periodType === PeriodType.LAST_ENTRY.ref;
-    let recurring = periodType === PeriodType.GUIDED_TOUR.ref || periodType === PeriodType.ARRIVAL.ref ||
-      periodType === PeriodType.DEPARTURE.ref;
     let grp = new FormGroup({startTime:
         new FormControl(isModel ? this.parseTime(timeFrame.startTime) : timeFrame.startTime, Validators.required)});
-    if (!singleTime) {
+    if (!periodType.isSingleTime) {
       grp.addControl('endTime', new FormControl(isModel ? this.parseTime(timeFrame.endTime) : timeFrame.endTime));
     }
-    if (recurring) {
+    if (periodType.isRecurring) {
       grp.addControl('recurrence', new FormControl(isModel ? this.parseTime(timeFrame.recurrence) : timeFrame.recurrence));
     }
     return grp;

@@ -4,15 +4,12 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 
 @Injectable()
 export class AuthService {
-  public userEmail = 'admin@hotentic.com';
+  public userEmail: string;
 
   constructor(private http: HttpClient) {}
 
-  public logout() {
-    this.userEmail = null;
-  }
-
   handleAuthCallback(callBackUrl, success, error?) {
+
     if (callBackUrl.indexOf(OAUTH_REDIRECT_URL) === 0) {
       let callBackCode = callBackUrl.split("code=")[1];
       let code = callBackCode.split("&")[0];

@@ -118,4 +118,13 @@ apidate-config {
       }
     }
   }
+
+  #config_form {
+    .btn-group {
+      .btn-sm {
+        white-space: normal;
+        line-height: 1.1;
+      }
+    }
+  }
 }

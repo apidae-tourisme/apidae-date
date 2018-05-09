@@ -18,10 +18,10 @@
             </div>
           </div>
           <div class="row">
-            <div class="form-group col-sm-12">
+            <div class="form-group col-sm-12 mb-0">
               <label class="font-weight-bold">Types d'horaires</label><br/>
               <div class="btn-group" data-toggle="buttons">
-                <label *ngFor="let tpt of config.timePeriodsTypes" class="btn-outline-primary col mb-0" ngbButtonLabel>
+                <label *ngFor="let tpt of config.timePeriodsTypes" class="btn-sm btn-outline-primary col mb-0" ngbButtonLabel>
                   <input type="checkbox" ngbButton [formControl]="tp.get('timePeriodsTypes').get(tpt.reference)">{{tpt.description}}
                 </label>
               </div>

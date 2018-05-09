@@ -12,22 +12,22 @@ import "rxjs/add/observable/of";
 @Injectable()
 export class StorageService {
 
-  private static readonly CONFIGS_LIST = "";
-  private static readonly BY_EXTERNAL_ID = "/_design/search/_view/by-external-id";
+  private static readonly CONFIGS_LIST = '/_all_docs?end_key="apidate_config_\ufff0"&start_key="apidate_config_"';
+  private static readonly BY_EXTERNAL_ID = '/_design/search/_view/by-external-id';
 
   constructor(private http: HttpClient) {
   }
 
-  public getSchedule(initParams): Observable<TimeSchedule> {
+  public getSchedule(config, initParams): Observable<TimeSchedule> {
     return this.http.get(DB_URL + StorageService.BY_EXTERNAL_ID + '?include_docs=true', {headers: this.defaultHeaders(),
       params: {key: '["' + initParams.type + '","' + initParams.externalId + '"]'}}).map((res: Response): TimeSchedule => {
         if (res['rows'].length > 0) {
           let result = res['rows'][0];
           let doc = result.doc;
           doc.id = doc['_id'];
-          return TimeSchedule.buildFrom(doc, initParams);
+          return TimeSchedule.buildFrom(config, doc, initParams);
         } else {
-          return TimeSchedule.buildFrom(initParams);
+          return TimeSchedule.buildFrom(config, initParams);
         }
       }).catch(this.handleError);
   }
@@ -56,8 +56,14 @@ export class StorageService {
   }
 
   public getConfigs(): Observable<any[]> {
-    return Observable.of([{type: 'apidae', description: 'Objets touristiques Apidae', updatedAt: 1525811411241,
-      updatedBy: 'admin@hotentic.com'}]);
+    return this.http.get(DB_URL + StorageService.CONFIGS_LIST + '&include_docs=true', {headers: this.defaultHeaders()})
+      .map((res: Response): any[] => {
+        if (res['rows'].length > 0) {
+          return res['rows'].map((r) => r.doc);
+        } else {
+          return [];
+        }
+      }).catch(this.handleError);
   }
 
   public getConfig(configType): Observable<TypeConfig> {

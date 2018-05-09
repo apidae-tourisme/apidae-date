@@ -8,13 +8,13 @@
         </button>
       </div>
       <div *ngIf="!collapsed" ngbDropdown class="btn-group col-sm-9">
-        <button class="btn btn-primary text-white" type="button" id="{{'tp-' + rank}}" ngbDropdownToggle>{{texts.tpType(tpType.value)}}</button>
+        <button class="btn btn-primary text-white" type="button" id="{{'tp-' + rank}}" ngbDropdownToggle>{{tpTypeDesc(tpType.value)}}</button>
         <div ngbDropdownMenu>
-          <button *ngFor="let type of allTypes()" type="button" class="dropdown-item" (click)="setTpType(type.ref)">{{texts.tpType(type.ref)}}</button>
+          <button *ngFor="let type of allTypes()" type="button" class="dropdown-item" (click)="setTpType(type.reference)">{{tpTypeDesc(type.reference)}}</button>
         </div>
       </div>
       <p *ngIf="collapsed" class="tp_text col-sm-9 text-white m-0">
-        {{texts.timePeriod(tpForm.value)}}
+        {{timePeriodDesc()}}
       </p>
       <div class="btn-group col-sm-1 p-0">
         <button type="button" class="btn btn-primary text-white" (click)="clone()">
@@ -72,7 +72,7 @@
       </div>
       <hr/>
       <h6 class="mt-3">Résumé</h6>
-      <div class="card p-2 bg-light">{{texts.timePeriod(tpForm.value)}}</div>
+      <div class="card p-2 bg-light">{{timePeriodDesc()}}</div>
     </div>
   </div>
 </div>

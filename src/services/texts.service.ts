@@ -1,11 +1,11 @@
-import { Injectable } from '@angular/core';
-import {PeriodType, Weekday} from "../shared/constants";
+import {Injectable} from '@angular/core';
+import {Weekday} from "../shared/constants";
 
 @Injectable()
 export class TextsService {
 
-  public tpType(typeRef) {
-    return this.periodType(typeRef).label;
+  public tpType(config, typeRef) {
+    return this.periodType(config, typeRef).description;
   }
 
   public timeFrame(tf, periodType): string {
@@ -18,25 +18,25 @@ export class TextsService {
       if (tf.endTime != null && tf.endTime.hour != null) {
         txt += "de " + startStr + " à " + this.timeAsString(tf.endTime);
       } else {
-        if (periodType.continuous) {
-          txt += "à partir de " + startStr;
-        } else {
-          txt += "à " + startStr;
-        }
+        // if (periodType.continuous) {
+        //   txt += "à partir de " + startStr;
+        // } else {
+        txt += "à " + startStr;
+        // }
       }
     }
     return txt;
   }
 
-  public timePeriod(tp): string {
-    let type = this.periodType(tp.type);
+  public timePeriod(config, tp): string {
+    let type = this.periodType(config, tp.type);
     let selectedDays = Weekday.ALL_DAYS.filter((d) => tp.weekdays[d.ref]);
     let daysText = selectedDays.length === 7 ? "tous les jours" : this.daysAsText(selectedDays);
     let timeFramesText = this.textJoin(tp.timeFrames.map((tf) => this.timeFrame(tf, type)));
     let singleTimeFrame = tp.timeFrames.length === 1
       && (!tp.timeFrames[0].endTime || !tp.timeFrames[0].endTime.hour)
       && (!tp.timeFrames[0].recurrence || !tp.timeFrames[0].recurrence.hour);
-    return [singleTimeFrame ? type.text.singular : type.text.plural, daysText, timeFramesText].join(" ");
+    return [singleTimeFrame ? type.summary.singular : type.summary.plural, daysText, timeFramesText].join(" ");
   }
 
   private duration(hours, mins = 0) {
@@ -49,8 +49,8 @@ export class TextsService {
     }
   }
 
-  private periodType(typeRef) {
-    return PeriodType.ALL_TYPES.filter((t) => t.ref === typeRef)[0];
+  private periodType(config, typeRef) {
+    return config.timePeriodsTypes.filter((t) => t.reference === typeRef)[0];
   }
 
   private timeAsString(time) {
@@ -65,7 +65,7 @@ export class TextsService {
     let text = "";
     if (days.length > 1) {
       let lastIdx = days.length - 1;
-      if ((Weekday.ALL_DAYS.indexOf(days[lastIdx]) - Weekday.ALL_DAYS.indexOf(days[0]))  === days.length - 1) {
+      if ((Weekday.ALL_DAYS.indexOf(days[lastIdx]) - Weekday.ALL_DAYS.indexOf(days[0])) === days.length - 1) {
         text = "du " + days[0].label.toLowerCase() + " au " + days[lastIdx].label.toLowerCase();
       } else {
         text = "les " + this.textJoin(days.map((d) => d.label.toLowerCase() + "s"));
