@@ -17,6 +17,7 @@ export class TimeScheduleComponent implements AfterViewInit, OnInit {
   @Input() config: TypeConfig;
   @Input() title: string;
   @Input() subtitle: string;
+  @Input() onLoad: any;
   @ViewChildren(TimePeriodComponent) timePeriodComponents: QueryList<TimePeriodComponent>;
 
   public tsForm: FormGroup;
@@ -32,6 +33,10 @@ export class TimeScheduleComponent implements AfterViewInit, OnInit {
   }
 
   ngAfterViewInit() {
+    if (this.onLoad) {
+      console.log('Apidate form - onLoad');
+      this.onLoad();
+    }
     DomUtils.setUpInteractions();
   }
 

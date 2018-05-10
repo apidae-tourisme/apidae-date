@@ -19,7 +19,7 @@
       <hr/>
       <div formArrayName="timePeriods" class="mt-3">
         <div *ngFor="let tp of timePeriods.controls; let i = index" class="time-period">
-          <apidate-time-period [tpForm]="tp" [rank]="i" [config]="config" (removed)="removeTimePeriod(i)"
+          <apidate-time-period [tpForm]="tp" [externalType]="timeSchedule.externalType" [rank]="i" [config]="config" (removed)="removeTimePeriod(i)"
                                (cloned)="addTimePeriod(i, tp.value)"></apidate-time-period>
         </div>
       </div>

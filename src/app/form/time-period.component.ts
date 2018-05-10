@@ -1,7 +1,6 @@
 import {AfterViewInit, Component, EventEmitter, Input, Output} from '@angular/core';
 import {Weekday} from "../../shared/constants";
 import {FormArray, FormBuilder, FormControl, FormGroup} from "@angular/forms";
-import {TimePeriod} from "../../models/time-period";
 import {TimeFrame} from "../../models/time-frame";
 import {TextsService} from "../../services/texts.service";
 import {DomUtils} from "../../shared/dom.utils";
@@ -15,7 +14,7 @@ import {TimePeriodType} from "../../models/time-period-type";
 export class TimePeriodComponent implements AfterViewInit {
   @Input() tpForm: FormGroup;
   @Input() config: TypeConfig;
-  @Input() tp: TimePeriod;
+  @Input() externalType: string;
   @Input() rank: number;
   @Output() cloned = new EventEmitter();
   @Output() removed = new EventEmitter();
@@ -49,8 +48,13 @@ export class TimePeriodComponent implements AfterViewInit {
     return this.tpForm.get('timeFrames') as FormArray;
   }
 
-  public allTypes(): Array<TimePeriodType> {
-    return this.config.timePeriodsTypes;
+  public availableTypes(): Array<TimePeriodType> {
+    let extType = this.config.externalTypes.filter((e) => e.reference === this.externalType)[0];
+    if (extType) {
+      return this.config.timePeriodsTypes.filter((tpt) => extType.timePeriodsTypes.indexOf(tpt.reference) !== -1);
+    } else {
+      console.log('Unmatched external type : ' + this.externalType);
+    }
   }
 
   public weekdays(): any[] {

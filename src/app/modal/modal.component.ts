@@ -30,10 +30,6 @@ export class ModalComponent {
 
   private initModal(contentComponent, config, title, subtitle, timeSchedule, onSubmit, onCancel, onDismiss, onLoad) {
     let modalRef = this.modalService.open(contentComponent, {windowClass: 'apidae_date', backdrop: 'static', keyboard: false});
-    if (modalRef && onLoad) {
-      console.log('Apidate - onLoad');
-      onLoad();
-    }
     modalRef.result.then((result) => {
       if (result === 'submit' && onSubmit) {
         console.log('Apidate - onSubmit');
@@ -54,6 +50,7 @@ export class ModalComponent {
     modalRef.componentInstance.title = title;
     modalRef.componentInstance.subtitle = subtitle;
     modalRef.componentInstance.config = config;
+    modalRef.componentInstance.onLoad = onLoad;
     modalRef.componentInstance.timeSchedule = timeSchedule;
   }
 }

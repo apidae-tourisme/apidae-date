@@ -10,7 +10,7 @@
       <div *ngIf="!collapsed" ngbDropdown class="btn-group col-sm-9">
         <button class="btn btn-primary text-white" type="button" id="{{'tp-' + rank}}" ngbDropdownToggle>{{tpTypeDesc(tpType.value)}}</button>
         <div ngbDropdownMenu>
-          <button *ngFor="let type of allTypes()" type="button" class="dropdown-item" (click)="setTpType(type.reference)">{{tpTypeDesc(type.reference)}}</button>
+          <button *ngFor="let type of availableTypes()" type="button" class="dropdown-item" (click)="setTpType(type.reference)">{{tpTypeDesc(type.reference)}}</button>
         </div>
       </div>
       <p *ngIf="collapsed" class="tp_text col-sm-9 text-white m-0">
