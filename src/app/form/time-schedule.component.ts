@@ -80,7 +80,7 @@ export class TimeScheduleComponent implements AfterViewInit, OnInit {
   }
 
   public addTimePeriod(idx, tp?): void {
-    this.timePeriods.insert(idx, TimePeriod.asForm(tp || new TimePeriod(this.config), this.config, false));
+    this.timePeriods.insert(idx, TimePeriod.asForm(tp || new TimePeriod(this.config), this.config, !tp));
     DomUtils.setUpInteractions();
   }
 
