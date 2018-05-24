@@ -92,21 +92,23 @@ Nom | Description | Contenu
 
 
 ### Exploitation
-A l'heure actuelle, l'API du module dispose de 2 points d'accès :
+Les saisies effectuées via le module Apidae Date sont exploitables par le biais d'APIs web. Les différents modes d'accès aux données sont les suivants :
 
-Path | Description | Valeur de retour
+Path | Description | Format de retour
 ------------ | ------------- | -------------
-{API_HOST}/by-external-id/{externalId} | Retourne la saisie Apidae Date correspondante | Saisie au format JSON (détails des champs ci-dessous)
-{API_HOST}/by-external-ref/{externalRef} | Retourne les identifiants externes des saisies Apidae Date correspondantes à cette réference | Liste d'identifiants externes (externalId)
+{API_HOST}/{TYPE}?id="123456" | Retourne la saisie de type TYPE identifiée par 123456 | JSON : objet représentant la saisie ou code 404 si identifiant inconnu 
+{API_HOST}/{TYPE}?ids=["123456", "345678"] | Retourne les saisies de type TYPE identifiées par 123456 et 345678 | JSON : tableaux d'objets représentant les saisies 
+{API_HOST}/{TYPE}?ref="456789" | Retourne toutes les saisies connues de type TYPE pour l’objet identifié par 456789 (clé externalRef) | JSON : tableaux d'objets représentant les saisies
+{API_HOST}/{TYPE}?refs=["456789", "456123"] | Retourne toutes les saisies connues de type TYPE pour les objets identifiés par 456789 et 456123 | JSON : tableaux d'objets représentant les saisies
 
-Exemple de réponse pour un appel du type `{API_HOST}/by-external-id/1234` :
+
+Exemple de réponse pour un appel du type `{API_HOST}/apidae_period?id=123456` :
 ```json
 {
-  "id":"14261d51c3fabc81839e1aabaa000fa4",
   "type":"apidae_period",
-  "externalId":"1234",
+  "externalId":"123456",
   "externalType":"PATRIMOINE_CULTUREL",
-  "externalRef":"12345",
+  "externalRef":"456789",
   "startDate":"2018-01-01",
   "endDate":"2018-12-31",
   "timePeriods":[

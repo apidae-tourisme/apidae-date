@@ -21,3 +21,8 @@ Ajout d'un accès aux saisies en mode consultation uniquement
 
 ## 0.2.1
 Ajout de la partie administration
+
+
+## 0.3.0
+Ajustements sur la partie administration
+Correctifs mineurs sur la saisie

@@ -75,6 +75,7 @@ export class DomUtils {
           }
         }
       }
+      emitPostInitEvent();
     }, 500);
 
     function selectOnFocus(tp) {
@@ -82,6 +83,12 @@ export class DomUtils {
       for (let i = 0; i < inputs.length; i++) {
         inputs[i]['onfocus'] = function() { this.select(); };
       }
+    }
+
+    function emitPostInitEvent() {
+      let event = document.createEvent('Event');
+      event.initEvent('apidate:refresh', true, true);
+      document.getElementById("time_schedule_form").dispatchEvent(event);
     }
   }
 }
