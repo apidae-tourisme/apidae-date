@@ -44,9 +44,6 @@
         }
       }
     }
-    document.getElementsByTagName('body')[0].addEventListener('apidate:refresh', function() {
-      console.log('received apidate:refresh event');
-    }, false);
   </script>
 </head>
 <body style="background-color: #dedede;">
@@ -60,5 +57,10 @@
 <script type="text/javascript" src="../inline.bundle.js"></script>
 <script type="text/javascript" src="../polyfills.bundle.js"></script>
 <script type="text/javascript" src="../main.bundle.js"></script>
+<script>
+  document.getElementsByTagName('body')[0].addEventListener('apidate:refresh', function() {
+    console.log('received apidate:refresh event');
+  }, false);
+</script>
 </body>
 </html>
