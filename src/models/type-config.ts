@@ -4,7 +4,7 @@ import {ExternalType} from "./external-type";
 export class TypeConfig {
   private static readonly ID_PREFIX = 'apidate_config_';
 
-  public id: string;
+  public _id: string;
   public _rev: string;
   public type: string;
   public description: string;
@@ -14,7 +14,7 @@ export class TypeConfig {
   public externalTypes: ExternalType[];
 
   constructor(configType, description, timePeriodsTypes?, externalTypes?) {
-    this.id = TypeConfig.id(configType);
+    this._id = TypeConfig.id(configType);
     this.type = configType;
     this.description = description;
     this.timePeriodsTypes = timePeriodsTypes ? timePeriodsTypes.map((tpt) => new TimePeriodType(tpt)) : [new TimePeriodType()];

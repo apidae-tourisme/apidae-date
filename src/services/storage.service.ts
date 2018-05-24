@@ -13,18 +13,18 @@ import "rxjs/add/observable/of";
 export class StorageService {
 
   private static readonly CONFIGS_LIST = '/_all_docs?end_key="apidate_config_\ufff0"&start_key="apidate_config_"';
-  private static readonly BY_EXTERNAL_ID = '/_design/search/_view/by-external-id';
+  private static readonly BY_EXTERNAL_ID = '/_design/api/_view/by-type-and-external-id';
+  private static readonly BY_PERIOD_TYPE = '/_design/api/_view/by-type-and-period-type';
 
   constructor(private http: HttpClient) {
   }
 
   public getSchedule(config, initParams): Observable<TimeSchedule> {
-    return this.http.get(DB_URL + StorageService.BY_EXTERNAL_ID + '?include_docs=true', {headers: this.defaultHeaders(),
+    return this.http.get(DB_URL + StorageService.BY_EXTERNAL_ID, {headers: this.defaultHeaders(),
       params: {key: '["' + initParams.type + '","' + initParams.externalId + '"]'}}).map((res: Response): TimeSchedule => {
         if (res['rows'].length > 0) {
           let result = res['rows'][0];
-          let doc = result.doc;
-          doc.id = doc['_id'];
+          let doc = result.value;
           return TimeSchedule.buildFrom(config, doc, initParams);
         } else {
           return TimeSchedule.buildFrom(config, initParams);
@@ -33,8 +33,8 @@ export class StorageService {
   }
 
   public saveSchedule(timeSchedule): Observable<TimeSchedule> {
-    if (timeSchedule.id) {
-      return this.http.put(DB_URL + "/" + timeSchedule.id, timeSchedule, {headers: this.defaultHeaders()})
+    if (timeSchedule._id) {
+      return this.http.put(DB_URL + "/" + timeSchedule._id, timeSchedule, {headers: this.defaultHeaders()})
         .map((res: Response): TimeSchedule => {
           if (res.ok) {
             timeSchedule._rev = res['rev'];
@@ -46,7 +46,7 @@ export class StorageService {
     } else {
       return this.http.post(DB_URL, timeSchedule, {headers: this.defaultHeaders()}).map((res: Response): TimeSchedule => {
         if (res.ok) {
-          timeSchedule.id = res['id'];
+          timeSchedule._id = res['id'];
           return timeSchedule;
         } else {
           return null;
@@ -74,13 +74,25 @@ export class StorageService {
   }
 
   public saveConfig(config: TypeConfig) {
-    return this.http.put(DB_URL + "/" + config.id, config, {headers: this.defaultHeaders()})
+    return this.http.put(DB_URL + "/" + config._id, config, {headers: this.defaultHeaders()})
       .map((res: Response): TypeConfig => {
         if (res.ok) {
           config._rev = res['rev'];
           return config;
         } else {
           return null;
+        }
+      }).catch(this.handleError);
+  }
+
+  public getTimePeriodsCount(config: TypeConfig, periodType: string) {
+    return this.http.get(DB_URL + StorageService.BY_PERIOD_TYPE, {headers: this.defaultHeaders(),
+      params: {key: '["' + config.type + '","' + periodType + '"]'}})
+      .map((res: Response): number => {
+        if (res['rows'].length === 1) {
+          return res['rows'][0].value;
+        } else {
+          return 0;
         }
       }).catch(this.handleError);
   }

@@ -127,4 +127,14 @@ apidate-config {
       }
     }
   }
+
+  form {
+    .form-check:hover > * {
+      cursor: pointer;
+    }
+
+    .form-check-input:active {
+      box-shadow: none;
+    }
+  }
 }

@@ -33,7 +33,7 @@ export class TimePeriod {
     return new FormGroup({
       type: new FormControl(timePeriod.type),
       weekdays: Weekday.ALL_DAYS.reduce((grp, d) => {
-          grp.addControl(d.ref, new FormControl(isModel ? timePeriod.weekdays.indexOf(d.ref) !== -1 : timePeriod.weekdays[d.ref]));
+          grp.addControl(d.ref, new FormControl(isModel ? (timePeriod.weekdays.indexOf(d.ref) !== -1) : timePeriod.weekdays[d.ref]));
           return grp;
         }, new FormGroup({})),
       timeFrames: new FormArray(timePeriod.timeFrames.map((tf) => TimeFrame.asForm(config.timePeriodType(timePeriod.type), tf, isModel)))

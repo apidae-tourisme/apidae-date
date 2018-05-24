@@ -1,7 +1,7 @@
 import {Component, OnInit} from "@angular/core";
 import {StorageService} from "../../services/storage.service";
 import {TypeConfig} from "../../models/type-config";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {FormArray, FormBuilder, FormGroup} from "@angular/forms";
 import {TimePeriodType} from "../../models/time-period-type";
 import {Locale} from "../../shared/constants";
@@ -18,9 +18,10 @@ export class ConfigPeriodsComponent implements OnInit {
   public saveComplete = false;
   public saveFailed = false;
   public collapsed = [];
+  public errors = [];
 
   constructor(private fb: FormBuilder, private storageService: StorageService, private authService: AuthService,
-              private route: ActivatedRoute) {
+              private route: ActivatedRoute, private router: Router) {
     this.configType = this.route.snapshot.paramMap.get('type');
   }
 
@@ -29,6 +30,7 @@ export class ConfigPeriodsComponent implements OnInit {
       this.config = conf;
       this.createForm();
       this.collapsed = this.timePeriodsTypes.controls.map((tpt) => true);
+      this.errors = this.timePeriodsTypes.controls.map((tpt) => false);
     });
   }
 
@@ -47,6 +49,7 @@ export class ConfigPeriodsComponent implements OnInit {
       this.storageService.saveConfig(this.config).subscribe((conf) => {
         this.saveComplete = true;
         this.saveFailed = false;
+        this.router.navigate(['/config'], {queryParams: {saved: true}});
       }, (err) => {
         this.saveFailed = true;
         this.saveComplete = false;
@@ -57,10 +60,20 @@ export class ConfigPeriodsComponent implements OnInit {
 
   public addTimePeriodType(idx): void {
     this.timePeriodsTypes.insert(idx, new TimePeriodType().asForm(this.fb));
+    this.collapsed.splice(idx, 0, false);
   }
 
   public removeTimePeriod(idx): void {
-    this.timePeriodsTypes.removeAt(idx );
+    let tpControl = this.timePeriodsTypes.at(idx);
+    this.storageService.getTimePeriodsCount(this.config, tpControl.value.reference).subscribe((count) => {
+      if (count > 0) {
+        this.collapsed[idx] = false;
+        this.errors[idx] = `Ce type d'horaire est utilisé par ${count} saisie(s) et ne peut donc pas être supprimé.`;
+      } else {
+        this.timePeriodsTypes.removeAt(idx);
+        this.collapsed.splice(idx, 1);
+      }
+    });
   }
 
   public allLangs(): string[] {
@@ -70,6 +83,10 @@ export class ConfigPeriodsComponent implements OnInit {
   public dismissAlert() {
     this.saveComplete = false;
     this.saveFailed = false;
+  }
+
+  public dismissError(idx) {
+    this.errors[idx] = false;
   }
 
   private createForm() {

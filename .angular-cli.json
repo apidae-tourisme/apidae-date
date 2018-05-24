@@ -10,6 +10,7 @@
       "assets": [
         "assets",
         "favicon.ico",
+        ".htaccess",
         "integration"
       ],
       "index": "index.html",

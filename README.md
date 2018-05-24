@@ -28,7 +28,7 @@ Le code ci-dessous illustre un exemple d'intégration :
         {
           title: 'Objet test', 
           subtitle: 'Période du 01/01/2018 au 31/12/2018', 
-          type: 'apidae', 
+          type: 'apidae_period', 
           externalId: '12345', 
           externalType: 'PATRIMOINE_CULTUREL', 
           externalRef: '1234', 
@@ -58,7 +58,7 @@ Nom | Description | Contenu
 ------------ | ------------- | -------------
 *title* | Titre du formulaire | Nom de l'objet touristique 
 *subtitle* | Sous-titre du fomulaire | Descriptif de la période d'ouverture
-*type* | Référentiel de la saisie | 'apidae' pour la base Apidae
+*type* | Référentiel de la saisie | 'apidae_period' pour les périodes d'objets touristiques Apidae
 *externalId* | Identifiant de l'objet auquel sera rattachée la saisie | Id de période d'ouverture 
 *externalType* | Type de l'objet auquel sera rattachée la saisie | Type d'objet touristique
 *externalRef* | Référence de l'objet auquel sera rattachée la saisie | Id d'objet touristique
@@ -103,7 +103,7 @@ Exemple de réponse pour un appel du type `{API_HOST}/by-external-id/1234` :
 ```json
 {
   "id":"14261d51c3fabc81839e1aabaa000fa4",
-  "type":"apidae",
+  "type":"apidae_period",
   "externalId":"1234",
   "externalType":"PATRIMOINE_CULTUREL",
   "externalRef":"12345",

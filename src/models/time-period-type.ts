@@ -17,11 +17,11 @@ export class TimePeriodType {
       this.summary = tpt.summary ? {...tpt.summary} : {singular: '', plural: ''};
       this.labels = {...tpt.labels};
     } else {
-      this.reference = 'opening';
-      this.description = "Horaires d'ouverture";
+      this.reference = null;
+      this.description = null;
       this.isRecurring = false;
       this.isSingleTime = false;
-      this.summary = {singular: "Ouverture", plural: "Ouverture"};
+      this.summary = {singular: "", plural: ""};
       this.labels = {
         fr: "Libellé FR",
         en: "",

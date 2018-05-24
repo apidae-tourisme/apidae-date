@@ -56,6 +56,7 @@ export class TimeScheduleComponent implements AfterViewInit, OnInit {
       this.timeSchedule.timePeriods = this.tsForm.value.timePeriods.map((tp) => {
         return new TimePeriod(this.config, tp);
       });
+      this.timeSchedule.updatedAt = new Date().getTime();
       this.storageService.saveSchedule(this.timeSchedule).subscribe((ts) => {
         this.saveComplete = true;
         this.saveFailed = false;

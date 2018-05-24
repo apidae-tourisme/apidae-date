@@ -1,7 +1,7 @@
 import {Component, OnInit} from "@angular/core";
 import {StorageService} from "../../services/storage.service";
 import {TypeConfig} from "../../models/type-config";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {FormArray, FormBuilder, FormGroup} from "@angular/forms";
 import {AuthService} from "../../services/auth.service";
 import {ExternalType} from "../../models/external-type";
@@ -16,9 +16,10 @@ export class ConfigEntitiesComponent implements OnInit {
   public submitted = false;
   public saveComplete = false;
   public saveFailed = false;
+  public collapsed = [];
 
   constructor(private fb: FormBuilder, private storageService: StorageService, private authService: AuthService,
-              private route: ActivatedRoute) {
+              private route: ActivatedRoute, private router: Router) {
     this.configType = this.route.snapshot.paramMap.get('type');
   }
 
@@ -26,6 +27,7 @@ export class ConfigEntitiesComponent implements OnInit {
     this.storageService.getConfig(this.configType).subscribe((conf: TypeConfig) => {
       this.config = conf;
       this.createForm();
+      this.collapsed = this.externalTypes.controls.map((t) => true);
     });
   }
 
@@ -42,6 +44,7 @@ export class ConfigEntitiesComponent implements OnInit {
       this.storageService.saveConfig(this.config).subscribe((conf) => {
         this.saveComplete = true;
         this.saveFailed = false;
+        this.router.navigate(['/config'], {queryParams: {saved: true}});
       }, (err) => {
         this.saveFailed = true;
         this.saveComplete = false;
@@ -52,10 +55,12 @@ export class ConfigEntitiesComponent implements OnInit {
 
   public addExternalType(idx): void {
     this.externalTypes.insert(idx, new ExternalType().asForm(this.config));
+    this.collapsed.splice(idx, 0, false);
   }
 
   public removeExternalType(idx): void {
-    this.externalTypes.removeAt(idx );
+    this.externalTypes.removeAt(idx);
+    this.collapsed.splice(idx, 1);
   }
 
   public dismissAlert() {

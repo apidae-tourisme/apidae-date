@@ -1,7 +1,7 @@
 import {TimePeriod} from "./time-period";
 
 export class TimeSchedule {
-  public id: string;
+  public _id: string;
   public _rev: string;
   public type: string;
   public externalId: string;
@@ -10,6 +10,7 @@ export class TimeSchedule {
   public startDate: number;
   public endDate: number;
   public userId: number;
+  public updatedAt: number;
   public timePeriods: TimePeriod[];
   public closingDays: string[];
 

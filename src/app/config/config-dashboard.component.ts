@@ -1,15 +1,18 @@
 import {Component, OnInit} from "@angular/core";
 import {StorageService} from "../../services/storage.service";
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
   templateUrl: 'config-dashboard.html'
 })
 export class ConfigDashboardComponent implements OnInit {
   public configs = [];
+  public saved: boolean;
 
-  constructor(private storageService: StorageService) {}
+  constructor(private storageService: StorageService, private route: ActivatedRoute) {}
 
   ngOnInit() {
+    this.saved = this.route.snapshot.queryParams.saved;
     this.storageService.getConfigs().subscribe((confs: any[]) => {
       this.configs = confs;
     });
@@ -23,7 +26,11 @@ export class ConfigDashboardComponent implements OnInit {
     return '';
   }
 
-  lpad(d): string {
+  public dismissAlert() {
+    this.saved = false;
+  }
+
+  private lpad(d): string {
     return d < 10 ? ('0' + d) : d;
   }
 }

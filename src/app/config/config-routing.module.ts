@@ -17,7 +17,7 @@ const configRoutes: Routes = [
         path: ':type',
         children: [
           {path: 'types-horaires', component: ConfigPeriodsComponent},
-          {path: 'types-entites', component: ConfigEntitiesComponent}
+          {path: 'types-objets', component: ConfigEntitiesComponent}
         ]
       }
     ]

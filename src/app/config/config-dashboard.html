@@ -1,4 +1,4 @@
-<div *ngFor="let conf of configs" class="card">
+<div *ngFor="let conf of configs" class="card mb-4">
   <div class="card-header">
     <h4 class="m-0">{{conf.description}}</h4>
     <small>Mise à jour le {{timeLabel(conf.updatedAt)}} par {{conf.updatedBy}}</small>
@@ -8,9 +8,11 @@
       <a class="btn btn-outline-primary" routerLink="{{conf.type}}/types-horaires" role="button">
         Gérer les types d'horaires
       </a>
-      <a class="btn btn-outline-secondary" routerLink="{{conf.type}}/types-entites" role="button">
-        Gérer les types d'entités
+      <a class="btn btn-outline-secondary" routerLink="{{conf.type}}/types-objets" role="button">
+        Gérer les types objets
       </a>
     </p>
   </div>
 </div>
+<ngb-alert *ngIf="saved" type="success" (close)="dismissAlert()">La saisie a bien été enregistrée.</ngb-alert>
+
