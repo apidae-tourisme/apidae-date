@@ -32,18 +32,19 @@ export class ModalComponent {
     let modalRef = this.modalService.open(contentComponent, {windowClass: 'apidae_date', backdrop: 'static', keyboard: false});
     modalRef.result.then((result) => {
       if (result === 'submit' && onSubmit) {
-        console.log('Apidate - onSubmit');
-        onSubmit();
+        console.log('Apidate - onSubmit registered');
+        this.platform.onDestroy(onSubmit);
       } else if (result === 'cancel' && onCancel) {
-        console.log('Apidate - onCancel');
-        onCancel();
+        console.log('Apidate - onCancel registered');
+        this.platform.onDestroy(onCancel);
       }
     }, (reason) => {
       if (onDismiss) {
-        console.log('Apidate - onDismiss');
-        onDismiss();
+        console.log('Apidate - onDismiss registered');
+        this.platform.onDestroy(onDismiss);
       }
     }).then(() => {
+      console.log('Apidate - exiting');
       this.platform.destroy();
     });
 
