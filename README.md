@@ -1,6 +1,6 @@
 <img src="/src/assets/img/logo_apidae.svg" alt="logo apidae" width="240px"/>
 
-# Apidae Date
+# Api Hours
 
 ## Description
 Module urbanisé de gestion des périodes et horaires d'ouverture de la plateforme Apidae.
@@ -92,7 +92,7 @@ Nom | Description | Contenu
 
 
 ### Exploitation
-Les saisies effectuées via le module Apidae Date sont exploitables par le biais d'APIs web. Les différents modes d'accès aux données sont les suivants :
+Les saisies effectuées via le module Api Hours sont exploitables par le biais d'APIs web. Les différents modes d'accès aux données sont les suivants :
 
 Path | Description | Format de retour
 ------------ | ------------- | -------------

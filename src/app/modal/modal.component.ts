@@ -19,9 +19,10 @@ export class ModalComponent {
 
   constructor(@Inject(INIT_PARAMS) initParams: Params, private route: ActivatedRoute, private modalService: NgbModal,
               private storageService: StorageService, private platform: PlatformRef) {
-    let contentComponent = modalComponents[this.route.snapshot.paramMap.get('content')];
+    let contentType = this.route.snapshot.paramMap.get('content');
+    let contentComponent = modalComponents[contentType];
     this.storageService.getConfig(initParams.type).subscribe((config: TypeConfig) => {
-      this.storageService.getSchedule(config, initParams).subscribe((timeSchedule: TimeSchedule) => {
+      this.storageService.getSchedule(config, contentType === 'form', initParams).subscribe((timeSchedule: TimeSchedule) => {
         this.initModal(contentComponent, config, initParams.title, initParams.subtitle, timeSchedule, initParams.onSubmit,
           initParams.onCancel, initParams.onDismiss, initParams.onLoad);
       });

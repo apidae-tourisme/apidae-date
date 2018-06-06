@@ -12,6 +12,12 @@
   height: 60px;
 }
 
+.modal-footer {
+  .delete_buttons button {
+    margin-left: 0.5rem;
+  }
+}
+
 .time-period:not(:first-child) {
   margin-top: 1rem;
 }

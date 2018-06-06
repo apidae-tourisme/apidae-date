@@ -2,11 +2,17 @@
 <html lang="fr">
 <head>
   <meta charset="utf-8">
-  <title>Apidae Date</title>
+  <title>Api Hours</title>
   <base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="../favicon.ico">
   <link href="../styles.bundle.css" rel="stylesheet"/>
+  <style>
+    #integration_form {
+      padding: 20px;
+      font-family: "Helvetica Neue", Arial, sans-serif;
+    }
+  </style>
   <script>
     function formOptions() {
       return {
@@ -47,8 +53,8 @@
   </script>
 </head>
 <body style="background-color: #dedede;">
-<div class="txtcenter">
-  <h1 class="txtcenter">Apidae Date</h1>
+<div id="integration_form" class="txtcenter">
+  <h1 class="txtcenter">Api Hours</h1>
   <label for="external_id">Identifiant de la période d'ouverture : </label><input id="external_id" type="text"
                                                                                   name="external_id"/>
   <button type="button" onclick="openApidateForm(formOptions())">Ouvrir un formulaire de saisie</button>

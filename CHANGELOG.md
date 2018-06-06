@@ -26,3 +26,7 @@ Ajout de la partie administration
 ## 0.3.0
 Ajustements sur la partie administration
 Correctifs mineurs sur la saisie
+
+## 0.4.0
+Ajout de la fonction de suppression d'une saisie
+Ajout d'un timestamp de mise à jour sur les saisies

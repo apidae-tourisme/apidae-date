@@ -24,6 +24,7 @@ export class TimeScheduleComponent implements AfterViewInit, OnInit {
   public submitted = false;
   public saveComplete = false;
   public saveFailed = false;
+  public deleting = false;
 
   constructor(private fb: FormBuilder, private storageService: StorageService, public activeModal: NgbActiveModal) {
   }
@@ -77,6 +78,28 @@ export class TimeScheduleComponent implements AfterViewInit, OnInit {
   public dismissAlert() {
     this.saveComplete = false;
     this.saveFailed = false;
+    this.deleting = false;
+  }
+
+  public confirmDeletion() {
+    this.deleting = true;
+  }
+
+  public submitDeletion() {
+    this.submitted = true;
+    this.storageService.deleteSchedule(this.timeSchedule).subscribe((res) => {
+      this.saveComplete = res;
+      this.saveFailed = !res;
+      if (this.saveComplete) {
+        setTimeout(() => this.closeForm(), 5000);
+      } else {
+        console.log('deletion error : ' + res);
+      }
+    }, (err) => {
+      this.saveComplete = false;
+      this.saveFailed = true;
+      console.log('error : ' + err);
+    });
   }
 
   public addTimePeriod(idx, tp?): void {
@@ -92,5 +115,18 @@ export class TimeScheduleComponent implements AfterViewInit, OnInit {
     this.timePeriodComponents.forEach((tpc) => {
       tpc.collapsed = collapsed;
     });
+  }
+
+  public updateLabel(ts): string {
+    if (ts._id && ts.updatedAt) {
+      let dateObj = new Date(ts.updatedAt);
+      return 'Mise à jour le ' +
+        [this.lpad(dateObj.getUTCDate()), this.lpad(dateObj.getUTCMonth() + 1), dateObj.getUTCFullYear()].join('/');
+    }
+    return 'Nouvelle saisie';
+  }
+
+  private lpad(d): string {
+    return d < 10 ? ('0' + d) : d;
   }
 }

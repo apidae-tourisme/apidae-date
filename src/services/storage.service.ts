@@ -19,15 +19,15 @@ export class StorageService {
   constructor(private http: HttpClient) {
   }
 
-  public getSchedule(config, initParams): Observable<TimeSchedule> {
+  public getSchedule(config, initDefaults, initParams): Observable<TimeSchedule> {
     return this.http.get(DB_URL + StorageService.BY_EXTERNAL_ID, {headers: this.defaultHeaders(),
       params: {key: '["' + initParams.type + '","' + initParams.externalId + '"]'}}).map((res: Response): TimeSchedule => {
         if (res['rows'].length > 0) {
           let result = res['rows'][0];
           let doc = result.value;
-          return TimeSchedule.buildFrom(config, doc, initParams);
+          return TimeSchedule.buildFrom(config, initDefaults, doc, initParams);
         } else {
-          return TimeSchedule.buildFrom(config, initParams);
+          return TimeSchedule.buildFrom(config, initDefaults, initParams);
         }
       }).catch(this.handleError);
   }
@@ -52,6 +52,16 @@ export class StorageService {
           return null;
         }
       }).catch(this.handleError);
+    }
+  }
+
+  public deleteSchedule(timeSchedule) {
+    if (timeSchedule._id) {
+      return this.http.delete(DB_URL + "/" + timeSchedule._id + "?rev=" + timeSchedule._rev, {headers: this.defaultHeaders()})
+        .map((res: Response): boolean => {
+          console.log('delete resp : ' + JSON.stringify(res));
+          return res.ok;
+        }).catch(this.handleError);
     }
   }
 

@@ -14,16 +14,18 @@ export class TimeSchedule {
   public timePeriods: TimePeriod[];
   public closingDays: string[];
 
-  constructor(config) {
-    this.timePeriods = [new TimePeriod(config)];
+  constructor(config, initDefaults) {
+    this.timePeriods = initDefaults ? [new TimePeriod(config)] : [];
   }
 
-  public static buildFrom(config, initValues, overrides?): TimeSchedule {
-    let ts = new TimeSchedule(config);
+  public static buildFrom(config, initDefaults, initValues, overrides?): TimeSchedule {
+    let ts = new TimeSchedule(config, initDefaults);
     ts = {...ts, ...initValues};
     if (overrides) {
       ts = {...ts, ...overrides};
     }
+    delete ts['title'];
+    delete ts['subtitle'];
     return ts;
   }
 }

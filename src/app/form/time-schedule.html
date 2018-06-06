@@ -5,11 +5,12 @@
 </div>
 <form id="time_schedule_form" [formGroup]="tsForm" (ngSubmit)="onSubmit()" #scheduleForm="ngForm" [class.submitted]="submitted">
   <div class="modal-body">
-    <div *ngIf="timeSchedule">
+    <div *ngIf="timeSchedule && !(deleting && saveComplete)">
       <div class="row">
         <div class="col-sm-8">
           <h2 class="h4">{{title}}</h2>
           <h3 class="h5 m-0">{{subtitle}}</h3>
+          <p><em>{{updateLabel(timeSchedule)}}</em></p>
         </div>
         <div class="col-sm-4 text-right">
           <button class="btn btn-sm btn-link" type="button" (click)="toggleAll(false)"><i class="fapi fapi-plus"></i>&nbsp;Détails</button>
@@ -32,10 +33,22 @@
     </div>
   </div>
   <div class="modal-footer">
-    <ngb-alert *ngIf="submitted && saveComplete" type="success" (close)="closeForm()">La saisie a bien été enregistrée.</ngb-alert>
-    <ngb-alert *ngIf="submitted && saveFailed" type="danger" (close)="dismissAlert()">Une erreur s'est produite lors de l'enregistrement de la saisie.</ngb-alert>
-    <ng-container *ngIf="!saveComplete && !saveFailed">
+    <ngb-alert *ngIf="submitted && saveComplete" type="success" (close)="closeForm()">La saisie a bien été {{deleting ? 'supprimée' : 'enregistrée'}}.</ngb-alert>
+    <ngb-alert *ngIf="submitted && saveFailed" type="danger" (close)="dismissAlert()">Une erreur s'est produite lors de {{deleting ? "la suppression" : "l'enregistrement"}} de la saisie.</ngb-alert>
+    <ngb-alert *ngIf="deleting && !submitted" type="warning" [dismissible]="false">
+      <div class="row">
+        <div class="col-sm-6 text-left m-auto">
+          Supprimer définitivement la saisie ?
+        </div>
+        <div class="col-sm-6 text-right delete_buttons">
+          <button type="button" class="btn btn-danger text-white" (click)="submitDeletion()">Supprimer</button>
+          <button type="button" class="btn btn-outline-dark" (click)="dismissAlert()">Annuler</button>
+        </div>
+      </div>
+    </ngb-alert>
+    <ng-container *ngIf="!saveComplete && !saveFailed && !deleting">
       <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('cancel')">Annuler</button>
+      <button type="button" class="btn btn-danger text-white" (click)="confirmDeletion()">Supprimer</button>
       <button class="btn btn-primary text-white" type="submit">Valider</button>
     </ng-container>
   </div>
