@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {DB_AUTH, DB_URL} from "../app/app.config";
+import {DB_URL} from "../app/app.config";
 import {TimeSchedule} from "../models/time-schedule";
 import {Observable} from "rxjs/Observable";
 import {TypeConfig} from "../models/type-config";
@@ -109,7 +109,6 @@ export class StorageService {
 
   private defaultHeaders() {
     let headers = new HttpHeaders();
-    headers = headers.append("Authorization", DB_AUTH);
     headers = headers.append("Content-Type", "application/json");
     return headers;
   }
