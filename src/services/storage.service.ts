@@ -110,6 +110,7 @@ export class StorageService {
   private defaultHeaders() {
     let headers = new HttpHeaders();
     headers = headers.append("Content-Type", "application/json");
+    headers = headers.append("X-Requested-With", "XMLHttpRequest");
     return headers;
   }
 
