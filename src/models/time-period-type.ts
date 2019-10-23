@@ -31,9 +31,11 @@ export class TimePeriodType {
         es: "",
         ru: "",
         zh: "",
-        'pt-br': ""
+        'pt-br': "",
+        ja: ""
       };
     }
+    this.completeLabels();
   }
 
   public asForm(fb: FormBuilder): FormGroup {
@@ -45,5 +47,11 @@ export class TimePeriodType {
       summary: fb.group(this.summary),
       labels: fb.group(this.labels)
     }, {updateOn: "change"});
+  }
+
+  private completeLabels() {
+    if (!this.labels.ja) {
+      this.labels.ja = "";
+    }
   }
 }

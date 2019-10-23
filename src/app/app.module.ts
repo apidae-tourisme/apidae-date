@@ -15,7 +15,7 @@ import {StorageService} from "../services/storage.service";
     AppComponent
   ],
   imports: [
-    NgbModule.forRoot(),
+    NgbModule,
     BrowserModule,
     HomeModule,
     LoginModule,

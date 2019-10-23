@@ -25,6 +25,7 @@
             "styles": [
               "src/styles.scss"
             ],
+            "extractCss": true,
             "scripts": []
           },
           "configurations": {

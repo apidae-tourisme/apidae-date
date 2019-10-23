@@ -1,0 +1,34 @@
+{
+  "_id": "_design/api",
+  "views": {
+    "by-external-id": {
+      "map": "function (doc) {\n  if(doc.type && doc.externalId) {\n    emit(doc.externalId.toString(), doc);\n  }\n}"
+    },
+    "by-external-ref": {
+      "map": "function (doc) {\n  if(doc.type && doc.externalRef) {\n    emit(doc.externalRef.toString(), doc);\n  }\n}"
+    },
+    "by-type-and-external-id": {
+      "map": "function (doc) {\n  if(doc.type && doc.externalId) {\n    emit([doc.type, doc.externalId.toString()], doc);\n  }\n}"
+    },
+    "by-type-and-external-type": {
+      "map": "function (doc) {\n  if(doc.type && doc.externalType) {\n    emit([doc.type, doc.externalType], doc.externalRef);\n  }\n}"
+    },
+    "by-type-and-period-type": {
+      "map": "function (doc) {\n  if(doc.type && doc.timePeriods) {\n    for(var i = 0; i < doc.timePeriods.length; i++) {\n      emit([doc.type, doc.timePeriods[i].type], null);\n    }\n  }\n}",
+      "reduce": "_count"
+    },
+    "by-type": {
+      "map": "function (doc) {\n  if(doc.type) {\n    emit(doc.type, null);\n  }\n}"
+    },
+    "with-time-periods": {
+      "map": "function (doc) {\n  if(doc.externalRef && doc.timePeriods) {\n    emit(doc.externalRef, doc.externalId);\n  }\n}",
+      "reduce": "function (keys, values, rereduce) {\n  var vals = [];\n  values.forEach(function(v) {\n    vals = vals.concat(v);\n  });\n  return vals;\n}"
+    }
+  },
+  "lists": {
+    "values": "function(head, req) {\n  provides('json', function() {\n    var row,res;\n    res = [];\n    while(row = getRow()) {\n      if(row.value.type === req['query']['type']) {\n        delete row.value._id;\n        delete row.value._rev;\n        delete row.value.userId;\n        req['query']['ids_only'] ? res.push(row.value.externalId) : res.push(row.value);\n      }\n    }\n    send(JSON.stringify(res));\n  });\n}",
+    "details": "function(head, req) {\n  provides('json', function() {\n    var row,res;\n    res = [];\n    while(row = getRow()) {\n      if(row.value.type === req['query']['type']) {\n        delete row.value._id;\n        delete row.value._rev;\n        res.push(row.value);\n      }\n    }\n    if(res.length > 0) {\n      send(JSON.stringify(res[0]));\n    } else {\n      throw (['error', 'not_found', 'Saisie inconnue']);\n    }\n  });\n}",
+    "ids": "function(head, req) {\n  provides('json', function() {\n    var row,res;\n    res = [];\n    while(row = getRow()) {\n      res.push({id: row.value._id, rev: row.value._rev});\n    }\n    if(res.length > 0) {\n      send(JSON.stringify(res));\n    } else {\n      throw (['error', 'not_found', 'Saisie inconnue']);\n    }\n  });\n}"
+  },
+  "language": "javascript"
+}

@@ -6,7 +6,7 @@
   <base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="../favicon.ico">
-  <link href="../styles.bundle.css" rel="stylesheet"/>
+  <link href="../styles.css" rel="stylesheet"/>
   <style>
     #integration_form {
       padding: 20px;
@@ -60,9 +60,9 @@
   <button type="button" onclick="openApidateForm(formOptions())">Ouvrir un formulaire de saisie</button>
   <button type="button" onclick="openApidateDisplay(displayOptions())">Afficher la saisie</button>
 </div>
-<script type="text/javascript" src="../inline.bundle.js"></script>
-<script type="text/javascript" src="../polyfills.bundle.js"></script>
-<script type="text/javascript" src="../main.bundle.js"></script>
+<script type="text/javascript" src="../runtime.js"></script>
+<script type="text/javascript" src="../polyfills-es5.js"></script>
+<script type="text/javascript" src="../main.js"></script>
 <script>
   document.getElementsByTagName('body')[0].addEventListener('apidate:refresh', function() {
     console.log('received apidate:refresh event');

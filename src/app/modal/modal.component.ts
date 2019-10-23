@@ -15,7 +15,7 @@ const modalComponents = {form: TimeScheduleComponent, details: DetailsComponent}
 })
 export class ModalComponent {
 
-  @ViewChild('content') content;
+  @ViewChild('content', { static: false }) content;
 
   constructor(@Inject(INIT_PARAMS) initParams: Params, private route: ActivatedRoute, private modalService: NgbModal,
               private storageService: StorageService, private platform: PlatformRef) {

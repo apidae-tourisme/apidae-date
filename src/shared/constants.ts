@@ -20,7 +20,8 @@ export class Locale {
   public static readonly RU = 'ru';
   public static readonly ZH = 'zh';
   public static readonly PT_BR = 'pt-br';
+  public static readonly JA = 'ja';
 
   public static readonly ALL_LANGS = [Locale.FR, Locale.EN, Locale.DE, Locale.NL, Locale.IT, Locale.ES, Locale.RU, Locale.ZH,
-    Locale.PT_BR];
+    Locale.PT_BR, Locale.JA];
 }
