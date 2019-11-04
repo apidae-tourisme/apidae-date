@@ -128,7 +128,7 @@ Voir le fichier [CHANGELOG](/CHANGELOG.md)
 
 ## Développement
 ### Environnement technique
-  - Angular 5.x
+  - Angular 8.x
   - Bootstrap 4 via ng-bootstrap (https://ng-bootstrap.github.io)
   - Apache CouchDB
   
