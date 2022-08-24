@@ -1,0 +1,27 @@
+RewriteEngine on
+SSLProxyEngine on
+
+Header always set Access-Control-Allow-Origin "*"
+Header always set Access-Control-Allow-Methods "GET,HEAD,OPTIONS"
+Header always set Access-Control-Allow-Headers "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+Header always set Content-Type "application/json; charset=utf-8"
+RequestHeader set Authorization ""
+
+RewriteCond %{REQUEST_METHOD} OPTIONS
+RewriteRule ^(.*)$ $1 [R=200,L]
+
+RewriteRule ^/labels BASE_URL/DB/_design/api/_list/first/config?key="apidate_config_apidae_period" [P,NE]
+
+RewriteRule ^/config BASE_URL/DB/apidate_config_apidae_period [P,NE]
+
+RewriteCond %{QUERY_STRING} ^(.*)id=(.*)$
+RewriteRule ^/(.*)$ BASE_URL/DB/_design/api/_list/details/by-external-id?%1key=%2&type=$1 [P,NE]
+
+RewriteCond %{QUERY_STRING} ^(.*)ids=(.*)$
+RewriteRule ^/(.*)$ BASE_URL/DB/_design/api/_list/values/by-external-id?%1keys=%2&type=$1 [P,NE]
+
+RewriteCond %{QUERY_STRING} ^(.*)ref=(.*)$
+RewriteRule ^/(.*)$ BASE_URL/DB/_design/api/_list/values/by-external-ref?%1key=%2&type=$1 [P,NE]
+
+RewriteCond %{QUERY_STRING} ^(.*)refs=(.*)$
+RewriteRule ^/(.*)$ BASE_URL/DB/_design/api/_list/values/by-external-ref?%1keys=%2&type=$1 [P,NE]

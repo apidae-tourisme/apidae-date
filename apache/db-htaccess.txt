@@ -1,0 +1,16 @@
+LoadModule ssl_module ${APACHE_ROOT}/modules/mod_ssl.so
+
+RewriteEngine on
+SSLProxyEngine on
+
+RewriteCond %{QUERY_STRING} singleorigin [NC]
+RewriteRule ^ - [E=singleorigin:true]
+
+SetEnvIf X-Requested-With ^(XMLHttpRequest)$ xmlhttp
+SetEnvIf Request_Method "OPTIONS" preflight
+
+Header onsuccess unset Access-Control-Allow-Origin env=singleorigin
+
+RequestHeader set Authorization "" env=xmlhttp
+
+RewriteRule ^/(.*) COUCHDB_URL/$1 [P,NE]

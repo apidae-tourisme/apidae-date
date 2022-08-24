@@ -23,12 +23,16 @@
     "with-time-periods": {
       "map": "function (doc) {\n  if(doc.externalRef && doc.timePeriods) {\n    emit(doc.externalRef, doc.externalId);\n  }\n}",
       "reduce": "function (keys, values, rereduce) {\n  var vals = [];\n  values.forEach(function(v) {\n    vals = vals.concat(v);\n  });\n  return vals;\n}"
+    },
+    "config": {
+      "map": "function (doc) {\n  if(doc.timePeriodsTypes) {\n    emit(doc._id, doc.timePeriodsTypes);\n  }\n}"
     }
   },
   "lists": {
     "values": "function(head, req) {\n  provides('json', function() {\n    var row,res;\n    res = [];\n    while(row = getRow()) {\n      if(row.value.type === req['query']['type']) {\n        delete row.value._id;\n        delete row.value._rev;\n        delete row.value.userId;\n        req['query']['ids_only'] ? res.push(row.value.externalId) : res.push(row.value);\n      }\n    }\n    send(JSON.stringify(res));\n  });\n}",
     "details": "function(head, req) {\n  provides('json', function() {\n    var row,res;\n    res = [];\n    while(row = getRow()) {\n      if(row.value.type === req['query']['type']) {\n        delete row.value._id;\n        delete row.value._rev;\n        res.push(row.value);\n      }\n    }\n    if(res.length > 0) {\n      send(JSON.stringify(res[0]));\n    } else {\n      throw (['error', 'not_found', 'Saisie inconnue']);\n    }\n  });\n}",
-    "ids": "function(head, req) {\n  provides('json', function() {\n    var row,res;\n    res = [];\n    while(row = getRow()) {\n      res.push({id: row.value._id, rev: row.value._rev});\n    }\n    if(res.length > 0) {\n      send(JSON.stringify(res));\n    } else {\n      throw (['error', 'not_found', 'Saisie inconnue']);\n    }\n  });\n}"
+    "ids": "function(head, req) {\n  provides('json', function() {\n    var row,res;\n    res = [];\n    while(row = getRow()) {\n      res.push({id: row.value._id, rev: row.value._rev});\n    }\n    if(res.length > 0) {\n      send(JSON.stringify(res));\n    } else {\n      throw (['error', 'not_found', 'Saisie inconnue']);\n    }\n  });\n}",
+    "first": "function(head, req) {\n  provides('json', function() {\n    var row,res;\n    res = [];\n    while(row = getRow()) {\n      res.push(row.value);\n    }\n    if(res.length > 0) {\n      send(JSON.stringify({timePeriodsTypes: res[0]}));\n    } else {\n      throw (['error', 'not_found', 'Saisie inconnue']);\n    }\n  });\n}"
   },
   "language": "javascript"
 }
