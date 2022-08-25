@@ -31,7 +31,7 @@
           "configurations": {
             "production": {
               "optimization": true,
-              "outputHashing": "all",
+              "outputHashing": "none",
               "sourceMap": false,
               "extractCss": true,
               "namedChunks": false,
@@ -43,6 +43,39 @@
                 {
                   "replace": "src/environments/environment.ts",
                   "with": "src/environments/environment.prod.ts"
+                }
+              ]
+            },
+            "standalone": {
+              "optimization": true,
+              "outputHashing": "none",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.standalone.ts"
+                },
+                {
+                  "replace": "src/app/config/config-routing.module.ts",
+                  "with": "src/app/config/config-routing.standalone.module.ts"
+                },
+                {
+                  "replace": "src/app/home/home.html",
+                  "with": "src/app/home/home.standalone.html"
+                },
+                {
+                  "replace": "src/services/storage.service.ts",
+                  "with": "src/services/storage.service.standalone.ts"
+                },
+                {
+                  "replace": "src/integration/index.html",
+                  "with": "src/integration/index.standalone.html"
                 }
               ]
             }

@@ -13,6 +13,8 @@ export class StorageService {
   private static readonly BY_EXTERNAL_ID = '/_design/api/_view/by-type-and-external-id';
   private static readonly BY_PERIOD_TYPE = '/_design/api/_view/by-type-and-period-type';
 
+  public ts: TimeSchedule;
+
   constructor(private http: HttpClient) {
   }
 

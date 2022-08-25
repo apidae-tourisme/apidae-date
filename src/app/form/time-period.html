@@ -1,14 +1,14 @@
 <div [formGroup]="tpForm" class="card">
-  <div class="card-header bg-primary">
+  <div class="card-header" [ngStyle]="styles.altStyles">
     <div class="row align-items-center">
       <div class="btn-group col-sm-1 pr-0">
-        <button type="button" class="btn btn-primary text-white" (click)="collapsed = !collapsed"
+        <button type="button" class="btn" (click)="collapsed = !collapsed" [ngStyle]="styles.altStyles"
                 [attr.aria-expanded]="!collapsed" aria-controls="collapsePeriod">
           <i class="fapi fapi-lg {{collapsed ? 'fapi-plus-square-o' : 'fapi-minus-square-o'}}"></i>
         </button>
       </div>
       <div *ngIf="!collapsed" ngbDropdown class="btn-group col-sm-9">
-        <button class="btn btn-primary text-white" type="button" id="{{'tp-' + rank}}" ngbDropdownToggle>{{tpTypeDesc(tpType.value)}}</button>
+        <button class="btn" [ngStyle]="styles.altStyles" type="button" id="{{'tp-' + rank}}" ngbDropdownToggle>{{tpTypeDesc(tpType.value)}}</button>
         <div ngbDropdownMenu>
           <button *ngFor="let type of availableTypes()" type="button" class="dropdown-item" (click)="setTpType(type.reference)">{{tpTypeDesc(type.reference)}}</button>
         </div>
@@ -17,12 +17,12 @@
         {{timePeriodDesc()}}
       </p>
       <div class="btn-group col-sm-1 p-0">
-        <button type="button" class="btn btn-primary text-white" (click)="clone()">
+        <button type="button" class="btn" (click)="clone()" [ngStyle]="styles.altStyles">
           <i class="fapi fapi-lg fapi-clone"></i>
         </button>
       </div>
       <div class="btn-group col-sm-1 pl-0">
-        <button type="button" class="btn btn-primary text-white" (click)="remove()">
+        <button type="button" class="btn" (click)="remove()" [ngStyle]="styles.altStyles">
           <i class="fapi fapi-lg fapi-trash-o"></i>
         </button>
       </div>
@@ -32,13 +32,14 @@
     <div class="card-body">
       <div class="row">
         <div class="weekdays btn-group col-sm-9" data-toggle="buttons">
-          <label *ngFor="let d of weekdays()" class="btn-outline-primary col mb-0" ngbButtonLabel>
+          <label *ngFor="let d of weekdays()" class="btn-outline-primary col mb-0" ngbButtonLabel
+                 [ngStyle]="tpWeekdays.get(d.ref).value ? styles.altStyles : styles.altOutlineStyles">
             <input type="checkbox" ngbButton [formControl]="tpWeekdays.get(d.ref)">{{d.label.substr(0, 3)}}
           </label>
         </div>
         <div class="btn-group col-sm-3 justify-content-end">
-          <button type="button" class="btn btn-primary text-white" (click)="setAllDaysTo(true)">Tous</button>
-          <button type="button" class="btn btn-outline-primary" (click)="setAllDaysTo(false)">Aucun</button>
+          <button type="button" class="btn" [ngStyle]="styles.altStyles" (click)="setAllDaysTo(true)">Tous</button>
+          <button type="button" class="btn" [ngStyle]="styles.altOutlineStyles" (click)="setAllDaysTo(false)">Aucun</button>
         </div>
       </div>
       <ul formArrayName="timeFrames" class="list-group mt-4">
@@ -57,7 +58,7 @@
               <ngb-timepicker [formControl]="tf.get('recurrence')" class="tp_recurrence"></ngb-timepicker>
             </div>
             <div class="col-sm-3 text-center">
-              <button type="button" class="btn btn-primary text-white" (click)="addTimeFrame(j, tf.value)">
+              <button type="button" class="btn" (click)="addTimeFrame(j, tf.value)" [ngStyle]="styles.altStyles">
                 <i class="fapi fapi-clone"></i>
               </button>
               <button type="button" class="btn btn-danger text-white" (click)="timeFrames.removeAt(j)">

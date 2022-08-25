@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <title>Api Hours</title>
+  <base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="../favicon.ico">
+  <link href="../styles.css" rel="stylesheet"/>
+  <style>
+    #integration_form {
+      padding: 20px;
+      font-family: "Helvetica Neue", Arial, sans-serif;
+    }
+  </style>
+  <script>
+    function openApiHours() {
+      let startDate = document.querySelector("#ah_start_date").value,
+        endDate = document.querySelector("#ah_end_date").value;
+      if (startDate && endDate) {
+        openApiHoursForm('Offre de test', dateToString(startDate), dateToString(endDate), '', 'PATRIMOINE_NATUREL', {
+          onSubmit: function(timeSchedule) {
+            document.querySelector("input[name='ah_time_periods']").value = JSON.stringify(timeSchedule.timePeriods);
+            document.querySelector("#tp_preview").innerHTML = JSON.stringify({timePeriods: timeSchedule.timePeriods});
+          },
+          styles: {
+            mainBackground: '#ffd1b3',
+            mainColor: '#3a2929',
+            altBackground: '#ff943c',
+            altColor: '#ffffff',
+            headerImage: 'none'
+          }
+        });
+      } else {
+        document.querySelector("#tp_preview").innerHTML = 'Veuillez renseigner une date de début et une date de fin';
+      }
+    }
+
+    function dateToString(isoDate) {
+      return new Date(Date.parse(isoDate)).toLocaleDateString();
+    }
+  </script>
+</head>
+<body>
+<div id="integration_form" class="apidae_date">
+  <div class="jumbotron">
+    <h1 class="display-4">Api Hours</h1>
+    <p class="lead">Api Hours (ou "Multi-horaires") est le module de gestion des horaires d'ouverture du système d'information
+      touristique Apidae. Il permet aux utilisateurs de la plateforme de consulter & saisir des horaires d'ouverture
+      associés aux différents types d'objets touristiques.</p>
+    <hr class="my-4">
+    <p class="lead">Le formulaire web Api Hours est une solution clés en main pour intégrer un formulaire de saisie d'horaires
+      au sein d'un formulaire web existant. Il applique automatiquement la configuration et les contrôles relatifs aux types
+      d'objets Apidae, et vous retourne la saisie des horaires d'ouverture directement dans le format attendu par l'API
+      d'écriture Apidae.<br/>
+      Le mode opératoire ci-dessous décrit les différentes étapes à réaliser pour le mettre en oeuvre.
+    </p>
+    <hr class="my-4">
+    <h3 class="mb-3">Intégration - Mode opératoire</h3>
+    <h5 class="text-info">1. Référencer les fichiers bundle.js et style.css dans votre page web</h5>
+    <p>Le fichier style.css fournit des styles de base pour le formulaire. Vous pouvez personnaliser le rendu
+      via les paramètres d'initialisation du formulaire, ou en introduisant des styles CSS complémentaires.</p>
+    <div class="p-2">
+      <blockquote>
+  <pre><code>
+  &lt;head&gt;
+    ...
+    &lt;link href="https://form.apihours.apidae-tourisme.com/0.6.0/styles.css" rel="stylesheet"/&gt;
+    ...
+  &lt;/head&gt;
+  &lt;body&gt;
+    ...
+    &lt;script type="text/javascript" src="https://form.apihours.apidae-tourisme.com/0.6.0/bundle.js"&gt;&lt;/script&gt;
+  &lt;/body&gt;
+  </code></pre>
+      </blockquote>
+    </div>
+    <h5 class="text-info">2. Intégrer le formulaire ApiHours au sein de votre formulaire</h5>
+    <p>L'intégration ci-dessous est fournie à titre d'exemple, pour une période d'ouverture unique avec date de début
+      et date de fin.</p>
+    <div class="p-2">
+      <blockquote>
+  <pre><code>
+  &lt;form&gt;
+    ...
+    &lt;h3&gt;Ouverture&lt;/h3&gt;
+
+    &lt;label&gt;Début :&lt;/label&gt;&lt;input type="date" name="start_date"/&gt;
+    &lt;label&gt;Fin :&lt;/label&gt;&lt;input type="date" name="end_date"/&gt;
+    &lt;button type="button" onclick="openApiHours()"&gt;Saisie des horaires&lt;/button&gt;
+    &lt;input type="hidden" name="time_periods"/&gt;
+    ...
+  &lt;/form&gt;
+  </code></pre>
+      </blockquote>
+    </div>
+    <h5 class="text-info">3. Mettre en place le code d'appel au formulaire ApiHours</h5>
+    <p>Les paramètres d'initialisation "nom de l'offre", "date de début", "date de fin", "identifiant de période" et "type d'offre" sont
+      obligatoires. Des paramètres complémentaires vous permettent de personnaliser davantage le fonctionnement du formulaire.</p>
+    <div class="p-2">
+      <blockquote>
+  <pre><code>
+  &lt;script&gt;
+    ...
+    function openApiHours() {
+      openApiHoursForm('Nom offre', '01/01/2022', '31/12/2022', '123456', 'PATRIMOINE_NATUREL', {
+        onSubmit: function(timeSchedule) {
+          document.querySelector("input[name='time_periods']").value = JSON.stringify(timeSchedule.timePeriods);
+        },
+        styles: {
+          mainBackground: '#ffd1b3',
+          mainColor: '#3a2929',
+          altBackground: '#ff943c',
+          altColor: '#ffffff',
+          fontFamily: 'Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace, serif',
+          headerImage: 'none'
+        }
+      });
+    }
+    ...
+  &lt;/script&gt;
+  </code></pre>
+      </blockquote>
+    </div>
+    <h5 class="text-info">4. Exploiter la valeur de retour pour la transmettre à l'API d'écriture Apidae.</h5>
+    <p>Voir la documentation développeur Apidae pour davantage d'informations sur le format attendu.</p>
+    <hr class="my-4">
+    <h3 class="mb-3">Exemple d'intégration</h3>
+    <p>Le formulaire ci-dessous illustre les différentes étapes de mise en oeuvre de la saisie ApiHours via un exemple interactif.</p>
+    <fieldset>
+      <legend>Ouverture</legend>
+      <div class="row">
+        <label for="ah_start_date" class="col-2 text-right pr-2 m-auto">Début :</label>
+        <input id="ah_start_date" type="date" name="ah_start_date" class="col-2"/>
+        <label for="ah_end_date" class="col-2 text-right pr-2 m-auto">Fin :</label>
+        <input id="ah_end_date" type="date" name="ah_end_date" class="col-2"/>
+        <div class="col-4 pl-5 text-right">
+          <button type="button" class="btn btn-block btn-primary" onclick="openApiHours()">Saisie des horaires</button>
+        </div>
+      </div>
+      <input type="hidden" name="ah_time_periods"/>
+    </fieldset>
+    <div class="mt-5">
+      <h6>Horaires d'ouverture générés au format JSON :</h6>
+      <code id="tp_preview"><em>Effectuez une saisie pour prévisualiser les données.</em></code>
+    </div>
+  </div>
+</div>
+<script type="text/javascript" src="../bundle.js"></script>
+</body>
+</html>

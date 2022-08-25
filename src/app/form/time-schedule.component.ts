@@ -7,6 +7,7 @@ import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
 import {TimePeriod} from "../../models/time-period";
 import {StorageService} from "../../services/storage.service";
 import {TypeConfig} from "../../models/type-config";
+import {StylesService} from "../../services/styles.service";
 
 @Component({
   selector: 'apidate-time-schedule',
@@ -26,7 +27,8 @@ export class TimeScheduleComponent implements AfterViewInit, OnInit {
   public saveFailed = false;
   public deleting = false;
 
-  constructor(private fb: FormBuilder, private storageService: StorageService, public activeModal: NgbActiveModal) {
+  constructor(private fb: FormBuilder, private storageService: StorageService, public activeModal: NgbActiveModal,
+              public styles: StylesService) {
   }
 
   ngOnInit(): void {

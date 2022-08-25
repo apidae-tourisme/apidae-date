@@ -2,14 +2,14 @@
 $fa-font-path: "../node_modules/font-awesome/fonts";
 
 // Apidae theme colors - overrides Bootstrap defaults
-$primary: #5db0c7;
-$secondary: #a4bd52;
-$success: #d9e8a9;
-$info: #7e7764;
-$warning: #f5c32e;
-$danger: #df7b7a;
+$primary: #168AC8;
+$secondary: #213162;
+$success: #213162;
+$info: #213162;
+$warning: #FCEF8B;
+$danger: #F46754;
 $light: #eceded;
-$dark: #282828;
+$dark: #645E51;
 
 // Custom modal sizes
 $modal-lg: 960px;
@@ -144,6 +144,10 @@ ngb-modal-backdrop.modal-backdrop {
         }
       }
     }
+
+    .card, .list-group-item {
+      background-color: inherit;
+    }
   }
 
   .btn-group + .btn-group {
@@ -156,5 +160,11 @@ ngb-modal-backdrop.modal-backdrop {
 
   .btn {
     background-image: none;
+  }
+
+  .apihours_standalone {
+    .standalone_hidden {
+      display: none;
+    }
   }
 }

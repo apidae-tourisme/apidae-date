@@ -1,20 +1,21 @@
-<div class="modal-header bg-primary">
+<div class="modal-header" [ngStyle]="styles.headerStyles">
   <button type="button" class="close" aria-label="Fermer" (click)="activeModal.dismiss()">
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
-<form id="time_schedule_form" [formGroup]="tsForm" (ngSubmit)="onSubmit()" #scheduleForm="ngForm" [class.submitted]="submitted">
+<form id="time_schedule_form" [formGroup]="tsForm" (ngSubmit)="onSubmit()" #scheduleForm="ngForm"
+      [class.submitted]="submitted" [ngClass]="styles.wrapperClass" [ngStyle]="styles.mainStyles">
   <div class="modal-body">
     <div *ngIf="timeSchedule && !(deleting && saveComplete)">
       <div class="row">
         <div class="col-sm-8">
           <h2 class="h4">{{title}}</h2>
           <h3 class="h5 m-0">{{subtitle}}</h3>
-          <p class="m-0"><em>{{updateLabel(timeSchedule)}}</em></p>
+          <p class="m-0 standalone_hidden"><em>{{updateLabel(timeSchedule)}}</em></p>
         </div>
         <div class="col-sm-4 text-right">
-          <button class="btn btn-sm btn-link" type="button" (click)="toggleAll(false)"><i class="fapi fapi-plus"></i>&nbsp;Détails</button>
-          <button class="btn btn-sm btn-link" type="button" (click)="toggleAll(true)"><i class="fapi fapi-minus"></i>&nbsp;Réduire</button>
+          <button class="btn btn-sm btn-link" [ngStyle]="styles.linkStyles" type="button" (click)="toggleAll(false)"><i class="fapi fapi-plus"></i>&nbsp;Détails</button>
+          <button class="btn btn-sm btn-link" [ngStyle]="styles.linkStyles" type="button" (click)="toggleAll(true)"><i class="fapi fapi-minus"></i>&nbsp;Réduire</button>
         </div>
       </div>
       <hr/>
@@ -49,7 +50,7 @@
     <ng-container *ngIf="!saveComplete && !saveFailed && !deleting">
       <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('cancel')">Annuler</button>
       <button type="button" class="btn btn-danger text-white" (click)="confirmDeletion()">Supprimer</button>
-      <button class="btn btn-primary text-white" type="submit">Valider</button>
+      <button class="btn" [ngStyle]="styles.altStyles" type="submit">Valider</button>
     </ng-container>
   </div>
 </form>

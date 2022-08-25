@@ -24,18 +24,26 @@
         type: 'apidae_period',
         startDate: '2018-06-01',
         endDate: '2018-11-15',
-        onSubmit: function () {
-          console.log('Submit callback');
+        onSubmit: function(ts) {
+          console.log('Submit callback: ' + JSON.stringify(ts));
         },
-        onCancel: function () {
-          console.log('Cancel callback');
+        onCancel: function(ts) {
+          console.log('Cancel callback: ' +  JSON.stringify(ts));
         },
-        onDismiss: function () {
-          console.log('Dismiss callback');
+        onDismiss: function(ts) {
+          console.log('Dismiss callback: ' +  JSON.stringify(ts));
         },
         onLoad: function () {
           console.log('Load callback');
-        }
+        },
+        // styles: {
+        //   mainBackground: '#ffd1b3',
+        //   mainColor: '#3a2929',
+        //   altBackground: '#ff943c',
+        //   altColor: '#ffffff',
+        //   fontFamily: 'Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace, serif',
+        //   headerImage: 'none'
+        // }
       }
     }
 

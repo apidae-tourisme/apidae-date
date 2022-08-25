@@ -7,6 +7,7 @@ import {TimeSchedule} from "../../models/time-schedule";
 import {DetailsComponent} from "../details/details.component";
 import {TimeScheduleComponent} from "../form/time-schedule.component";
 import {TypeConfig} from "../../models/type-config";
+import {StylesService} from "../../services/styles.service";
 
 const modalComponents = {form: TimeScheduleComponent, details: DetailsComponent};
 
@@ -18,9 +19,10 @@ export class ModalComponent {
   @ViewChild('content', { static: false }) content;
 
   constructor(@Inject(INIT_PARAMS) initParams: Params, private route: ActivatedRoute, private modalService: NgbModal,
-              private storageService: StorageService, private platform: PlatformRef) {
+              private storageService: StorageService, private styles: StylesService, private platform: PlatformRef) {
     let contentType = this.route.snapshot.paramMap.get('content');
     let contentComponent = modalComponents[contentType];
+    this.styles.loadStyles(initParams.styles);
     this.storageService.getConfig(initParams.type).subscribe((config: TypeConfig) => {
       this.storageService.getSchedule(config, contentType === 'form', initParams).subscribe((timeSchedule: TimeSchedule) => {
         this.initModal(contentComponent, config, initParams.title, initParams.subtitle, timeSchedule, initParams.onSubmit,
@@ -34,15 +36,15 @@ export class ModalComponent {
     modalRef.result.then((result) => {
       if (result === 'submit' && onSubmit) {
         console.log('Apidate - onSubmit registered');
-        this.platform.onDestroy(onSubmit);
+        this.platform.onDestroy(() => onSubmit(this.storageService.ts));
       } else if (result === 'cancel' && onCancel) {
         console.log('Apidate - onCancel registered');
-        this.platform.onDestroy(onCancel);
+        this.platform.onDestroy(() => onCancel(this.storageService.ts));
       }
     }, (reason) => {
       if (onDismiss) {
         console.log('Apidate - onDismiss registered');
-        this.platform.onDestroy(onDismiss);
+        this.platform.onDestroy(() => onDismiss(this.storageService.ts));
       }
     }).then(() => {
       console.log('Apidate - exiting');

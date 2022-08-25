@@ -9,6 +9,7 @@ import {LoginModule} from "./login/login.module";
 import {HomeModule} from "./home/home.module";
 import {TextsService} from "../services/texts.service";
 import {StorageService} from "../services/storage.service";
+import {StylesService} from "../services/styles.service";
 
 @NgModule({
   declarations: [
@@ -23,7 +24,7 @@ import {StorageService} from "../services/storage.service";
     ModalModule,
     AppRoutingModule
   ],
-  providers: [TextsService, StorageService],
+  providers: [TextsService, StorageService, StylesService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

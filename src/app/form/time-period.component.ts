@@ -6,6 +6,7 @@ import {TextsService} from "../../services/texts.service";
 import {DomUtils} from "../../shared/dom.utils";
 import {TypeConfig} from "../../models/type-config";
 import {TimePeriodType} from "../../models/time-period-type";
+import {StylesService} from "../../services/styles.service";
 
 @Component({
   selector: 'apidate-time-period',
@@ -21,7 +22,7 @@ export class TimePeriodComponent implements AfterViewInit {
 
   public collapsed = false;
 
-  constructor(private fb: FormBuilder, public texts: TextsService) {}
+  constructor(private fb: FormBuilder, public texts: TextsService, public styles: StylesService) {}
 
   ngAfterViewInit(): void {
     this.bindTypeChange();
