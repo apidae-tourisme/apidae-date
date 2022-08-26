@@ -24,8 +24,6 @@ export class TimeSchedule {
     if (overrides) {
       ts = {...ts, ...overrides};
     }
-    delete ts['title'];
-    delete ts['subtitle'];
     return ts;
   }
 }

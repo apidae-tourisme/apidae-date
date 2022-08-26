@@ -17,6 +17,7 @@ export class StorageService {
   public getSchedule(config, initDefaults, initParams): Observable<TimeSchedule> {
     return this.http.get(DB_URL + '/apidae_period', {headers: this.defaultHeaders(),
       params: {ids: '["' + initParams.externalId + '"]', singleorigin: 'true'}}).pipe(map((res: any): TimeSchedule => {
+        console.log('getSchedule initParams: ' + JSON.stringify(initParams));
         if (res && res.length === 1) {
           return TimeSchedule.buildFrom(config, initDefaults, res[0], initParams);
         } else {
@@ -26,9 +27,7 @@ export class StorageService {
   }
 
   public saveSchedule(timeSchedule): Observable<TimeSchedule> {
-    this.ts = {...timeSchedule};
-    delete this.ts['_id'];
-    delete this.ts['_rev'];
+    this.ts = timeSchedule;
     return of(timeSchedule);
   }
 

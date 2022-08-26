@@ -39,6 +39,10 @@ export class TextsService {
     return [singleTimeFrame ? type.summary.singular : type.summary.plural, daysText, timeFramesText].join(" ");
   }
 
+  public timestampAsDate(ts): string {
+    return new Date(ts).toLocaleDateString();
+  }
+
   private duration(hours, mins = 0) {
     if (hours === 0) {
       return mins.toString() + " minutes";

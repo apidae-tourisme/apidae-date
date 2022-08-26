@@ -8,6 +8,8 @@ import {DetailsComponent} from "../details/details.component";
 import {TimeScheduleComponent} from "../form/time-schedule.component";
 import {TypeConfig} from "../../models/type-config";
 import {StylesService} from "../../services/styles.service";
+import {TextsService} from "../../services/texts.service";
+import {TimePeriod} from "../../models/time-period";
 
 const modalComponents = {form: TimeScheduleComponent, details: DetailsComponent};
 
@@ -19,14 +21,20 @@ export class ModalComponent {
   @ViewChild('content', { static: false }) content;
 
   constructor(@Inject(INIT_PARAMS) initParams: Params, private route: ActivatedRoute, private modalService: NgbModal,
-              private storageService: StorageService, private styles: StylesService, private platform: PlatformRef) {
-    let contentType = this.route.snapshot.paramMap.get('content');
-    let contentComponent = modalComponents[contentType];
-    this.styles.loadStyles(initParams.styles);
+              private storageService: StorageService, private texts: TextsService, private styles: StylesService,
+              private platform: PlatformRef) {
+    let contentType = this.route.snapshot.paramMap.get('content'), contentComponent = modalComponents[contentType],
+      title = this.extractProperty(initParams, 'title'), subtitle = this.extractProperty(initParams, 'subtitle'),
+      customStyles = this.extractProperty(initParams, 'styles');
+
+    this.styles.loadStyles(customStyles);
+
+    let onSubmit = this.extractProperty(initParams, 'onSubmit'), onCancel = this.extractProperty(initParams, 'onCancel'),
+      onDismiss = this.extractProperty(initParams, 'onDismiss'), onLoad = this.extractProperty(initParams, 'onLoad');
     this.storageService.getConfig(initParams.type).subscribe((config: TypeConfig) => {
       this.storageService.getSchedule(config, contentType === 'form', initParams).subscribe((timeSchedule: TimeSchedule) => {
-        this.initModal(contentComponent, config, initParams.title, initParams.subtitle, timeSchedule, initParams.onSubmit,
-          initParams.onCancel, initParams.onDismiss, initParams.onLoad);
+        this.initModal(contentComponent, config, title, subtitle, timeSchedule,
+          onSubmit, onCancel, onDismiss, onLoad);
       });
     });
   }
@@ -36,15 +44,16 @@ export class ModalComponent {
     modalRef.result.then((result) => {
       if (result === 'submit' && onSubmit) {
         console.log('Apidate - onSubmit registered');
-        this.platform.onDestroy(() => onSubmit(this.storageService.ts));
+        const timePeriods = this.serializedTimePeriods(config, this.storageService.ts);
+        this.platform.onDestroy(() => onSubmit(timePeriods));
       } else if (result === 'cancel' && onCancel) {
         console.log('Apidate - onCancel registered');
-        this.platform.onDestroy(() => onCancel(this.storageService.ts));
+        this.platform.onDestroy(() => onCancel());
       }
     }, (reason) => {
       if (onDismiss) {
         console.log('Apidate - onDismiss registered');
-        this.platform.onDestroy(() => onDismiss(this.storageService.ts));
+        this.platform.onDestroy(() => onDismiss());
       }
     }).then(() => {
       console.log('Apidate - exiting');
@@ -56,5 +65,23 @@ export class ModalComponent {
     modalRef.componentInstance.config = config;
     modalRef.componentInstance.onLoad = onLoad;
     modalRef.componentInstance.timeSchedule = timeSchedule;
+  }
+
+  private serializedTimePeriods(config, timeSchedule): string {
+    return JSON.stringify(timeSchedule.timePeriods.map((tp) => {
+      let timePeriod = TimePeriod.asForm(tp, config, true).value;
+      return {
+        type: tp.type,
+        weekdays: tp.weekdays,
+        timeFrames: tp.timeFrames,
+        description: this.texts.timePeriod(config, timePeriod)
+      };
+    }));
+  }
+
+  private extractProperty(obj, key) {
+    let val = obj[key];
+    delete obj[key];
+    return val;
   }
 }

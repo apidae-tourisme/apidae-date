@@ -16,12 +16,18 @@
   <script>
     function openApiHours() {
       let startDate = document.querySelector("#ah_start_date").value,
-        endDate = document.querySelector("#ah_end_date").value;
+        endDate = document.querySelector("#ah_end_date").value,
+        timePeriodsJson = document.querySelector("input[name='ah_time_periods']").value;
       if (startDate && endDate) {
-        openApiHoursForm('Offre de test', dateToString(startDate), dateToString(endDate), '', 'PATRIMOINE_NATUREL', {
-          onSubmit: function(timeSchedule) {
-            document.querySelector("input[name='ah_time_periods']").value = JSON.stringify(timeSchedule.timePeriods);
-            document.querySelector("#tp_preview").innerHTML = JSON.stringify({timePeriods: timeSchedule.timePeriods});
+        // let timeSchedule = {startDate: startDate, endDate: endDate, externalType: 'PATRIMOINE_NATUREL'};
+        let timeSchedule = {startDate: startDate, endDate: endDate, externalId: 21724340};
+        if (timePeriodsJson) {
+          timeSchedule.timePeriods = JSON.parse(timePeriodsJson);
+        }
+        openApiHoursForm('Offre de test', timeSchedule, {
+          onSubmit: function(timePeriods) {
+            document.querySelector("input[name='ah_time_periods']").value = timePeriods;
+            document.querySelector("#tp_preview").innerHTML = timePeriods;
           },
           styles: {
             mainBackground: '#ffd1b3',
@@ -34,10 +40,6 @@
       } else {
         document.querySelector("#tp_preview").innerHTML = 'Veuillez renseigner une date de début et une date de fin';
       }
-    }
-
-    function dateToString(isoDate) {
-      return new Date(Date.parse(isoDate)).toLocaleDateString();
     }
   </script>
 </head>
@@ -103,7 +105,7 @@
   &lt;script&gt;
     ...
     function openApiHours() {
-      openApiHoursForm('Nom offre', '01/01/2022', '31/12/2022', '123456', 'PATRIMOINE_NATUREL', {
+      openApiHoursForm('Nom offre', {startDate: '2022-01-01', endDate: '2022-12-31', externalType: 'PATRIMOINE_NATUREL'}, {
         onSubmit: function(timeSchedule) {
           document.querySelector("input[name='time_periods']").value = JSON.stringify(timeSchedule.timePeriods);
         },

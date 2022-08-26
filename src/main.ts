@@ -24,16 +24,30 @@ if (environment['production']) {
 
 if (environment['standalone']) {
   enableProdMode();
-  window['openApiHoursForm'] = function (title, startDate, endDate, externalId, externalType, initParams) {
-    initTag();
-    let initData = {
-      ...{
-        title: title, subtitle: 'Période du ' + startDate + ' au ' + endDate, externalType: externalType,
-        type: 'apidae_period', externalId: externalId
-      },
-      ...initParams
-    };
-    initApp(initData, ['/modal', 'form', initData.type, initData.externalId]);
+  window['openApiHoursForm'] = function (title, timeSchedule, initParams) {
+    console.log('openApiHoursForm - timeSchedule: ' + JSON.stringify(timeSchedule));
+    if (timeSchedule.startDate && timeSchedule.endDate && (timeSchedule.externalId || timeSchedule.externalType)) {
+      try {
+        initTag();
+        const startDate = new Date(Date.parse(timeSchedule.startDate)).toLocaleDateString(),
+          endDate = new Date(Date.parse(timeSchedule.endDate)).toLocaleDateString();
+        let initData = {
+          ...{title: title, subtitle: 'Période du ' + startDate + ' au ' + endDate, type: 'apidae_period'},
+          ...initParams
+        };
+        if (timeSchedule.externalType) { initData.externalType = timeSchedule.externalType; }
+        if (timeSchedule.externalId) { initData.externalId = timeSchedule.externalId; }
+        if (timeSchedule.timePeriods) { initData.timePeriods = timeSchedule.timePeriods; }
+
+        initApp(initData, ['/modal', 'form', initData.type, initData.externalId]);
+
+      } catch (e) {
+        console.error("openApiHoursForm error: " + e);
+      }
+    } else {
+      console.error("Cannot open ApiHours form - Please make sure that input timeSchedule " +
+        "has valid startDate, endDate and externalId or externalType properties.");
+    }
   };
 }
 
