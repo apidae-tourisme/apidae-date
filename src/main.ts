@@ -39,7 +39,7 @@ if (environment['standalone']) {
         if (timeSchedule.externalId) { initData.externalId = timeSchedule.externalId; }
         if (timeSchedule.timePeriods) { initData.timePeriods = timeSchedule.timePeriods; }
 
-        initApp(initData, ['/modal', 'form', initData.type, initData.externalId]);
+        initApp(initData, ['/modal', 'form', initData.type, initData.externalId || '']);
 
       } catch (e) {
         console.error("openApiHoursForm error: " + e);
