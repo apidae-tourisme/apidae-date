@@ -17,11 +17,13 @@ export class StorageService {
   public getSchedule(config, initDefaults, initParams): Observable<TimeSchedule> {
     return this.http.get(DB_URL + '/apidae_period', {headers: this.defaultHeaders(),
       params: {ids: '["' + initParams.externalId + '"]', singleorigin: 'true'}}).pipe(map((res: any): TimeSchedule => {
-        console.log('getSchedule initParams: ' + JSON.stringify(initParams));
+        console.debug('getSchedule initParams: ' + JSON.stringify(initParams));
         if (res && res.length === 1) {
           return TimeSchedule.buildFrom(config, initDefaults, res[0], initParams);
-        } else {
+        } else if (initParams.externalType) {
           return TimeSchedule.buildFrom(config, initDefaults, initParams);
+        } else {
+          throw new Error("Please provide a valid externalType or externalId to init the Apihours form");
         }
     }), catchError(this.handleError));
   }
