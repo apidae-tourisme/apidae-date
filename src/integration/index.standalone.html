@@ -106,8 +106,8 @@
     ...
     function openApiHours() {
       openApiHoursForm('Nom offre', {startDate: '2022-01-01', endDate: '2022-12-31', externalType: 'PATRIMOINE_NATUREL'}, {
-        onSubmit: function(timeSchedule) {
-          document.querySelector("input[name='time_periods']").value = JSON.stringify(timeSchedule.timePeriods);
+        onSubmit: function(timePeriods) {
+          document.querySelector("input[name='time_periods']").value = timePeriods;
         },
         styles: {
           mainBackground: '#ffd1b3',

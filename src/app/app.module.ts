@@ -10,6 +10,7 @@ import {HomeModule} from "./home/home.module";
 import {TextsService} from "../services/texts.service";
 import {StorageService} from "../services/storage.service";
 import {StylesService} from "../services/styles.service";
+import {APP_BASE_HREF} from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,7 @@ import {StylesService} from "../services/styles.service";
     ModalModule,
     AppRoutingModule
   ],
-  providers: [TextsService, StorageService, StylesService],
+  providers: [{provide: APP_BASE_HREF, useValue: '/'}, TextsService, StorageService, StylesService],
   bootstrap: [AppComponent]
 })
 export class AppModule {
