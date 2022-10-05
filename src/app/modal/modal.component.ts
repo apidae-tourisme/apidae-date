@@ -9,7 +9,6 @@ import {TimeScheduleComponent} from "../form/time-schedule.component";
 import {TypeConfig} from "../../models/type-config";
 import {StylesService} from "../../services/styles.service";
 import {TextsService} from "../../services/texts.service";
-import {TimePeriod} from "../../models/time-period";
 
 const modalComponents = {form: TimeScheduleComponent, details: DetailsComponent};
 
@@ -44,7 +43,7 @@ export class ModalComponent {
     modalRef.result.then((result) => {
       if (result === 'submit' && onSubmit) {
         console.log('Apidate - onSubmit registered');
-        const timePeriods = this.serializedTimePeriods(config, this.storageService.ts);
+        const timePeriods = this.storageService.serializedTimePeriods(this.storageService.ts, config, this.texts);
         this.platform.onDestroy(() => onSubmit(timePeriods));
       } else if (result === 'cancel' && onCancel) {
         console.log('Apidate - onCancel registered');
@@ -65,18 +64,6 @@ export class ModalComponent {
     modalRef.componentInstance.config = config;
     modalRef.componentInstance.onLoad = onLoad;
     modalRef.componentInstance.timeSchedule = timeSchedule;
-  }
-
-  private serializedTimePeriods(config, timeSchedule): string {
-    return JSON.stringify(timeSchedule.timePeriods.map((tp) => {
-      let timePeriod = TimePeriod.asForm(tp, config, true).value;
-      return {
-        type: tp.type,
-        weekdays: tp.weekdays,
-        timeFrames: tp.timeFrames,
-        description: this.texts.timePeriod(config, timePeriod)
-      };
-    }));
   }
 
   private extractProperty(obj, key) {

@@ -5,6 +5,7 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {DB_URL} from "../app/app.config";
 import {TimeSchedule} from "../models/time-schedule";
 import {TypeConfig} from "../models/type-config";
+import {TimePeriod} from "../models/time-period";
 
 @Injectable()
 export class StorageService {
@@ -104,6 +105,18 @@ export class StorageService {
           return 0;
         }
       }), catchError(this.handleError));
+  }
+
+  public serializedTimePeriods(timeSchedule, config, texts): string {
+    return JSON.stringify(timeSchedule.timePeriods.map((tp) => {
+      let timePeriod = TimePeriod.asForm(tp, config, true).value;
+      return {
+        type: tp.type,
+        weekdays: tp.weekdays,
+        timeFrames: tp.timeFrames,
+        description: texts.timePeriod(config, timePeriod)
+      };
+    }));
   }
 
   private defaultHeaders() {

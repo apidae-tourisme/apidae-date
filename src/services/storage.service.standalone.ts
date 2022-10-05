@@ -5,6 +5,7 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {DB_URL} from "../app/app.config";
 import {TimeSchedule} from "../models/time-schedule";
 import {TypeConfig} from "../models/type-config";
+import {TimePeriod} from "../models/time-period";
 
 @Injectable()
 export class StorageService {
@@ -23,7 +24,7 @@ export class StorageService {
         } else if (initParams.externalType) {
           return TimeSchedule.buildFrom(config, initDefaults, initParams);
         } else {
-          throw new Error("Please provide a valid externalType or externalId to init the Apihours form");
+          throw new Error("Please provide a valid externalType or externalId");
         }
     }), catchError(this.handleError));
   }
@@ -54,6 +55,18 @@ export class StorageService {
 
   public getTimePeriodsCount(config: TypeConfig, periodType: string) {
     return null;
+  }
+
+  public serializedTimePeriods(timeSchedule, config, texts): string {
+    return JSON.stringify(timeSchedule.timePeriods.map((tp) => {
+      let timePeriod = TimePeriod.asForm(tp, config, true).value;
+      return {
+        type: tp.type,
+        weekdays: tp.weekdays,
+        timeFrames: tp.timeFrames,
+        description: texts.timePeriod(config, timePeriod)
+      };
+    }));
   }
 
   private defaultHeaders() {

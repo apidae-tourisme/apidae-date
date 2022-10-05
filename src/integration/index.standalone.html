@@ -96,16 +96,27 @@
   </code></pre>
       </blockquote>
     </div>
+    <p>
+      <strong>Note : </strong> si vous avez besoin d'initialiser le champ de votre formulaire avec une éventuelle saisie
+      ApiHours existante, vous pouvez appeler la fonction asynchrone <code>apihours.loadApiHoursOpening(externalId)</code> où
+      <em>externalId</em> est l'identifiant technique de la période d'ouverture.<br/>
+      Si une saisie ApiHours existe pour cette période, elle sera transmise comme valeur de retour au format JSON (via une promesse JS).
+    </p>
+    <br/>
     <h5 class="text-info">3. Mettre en place le code d'appel au formulaire ApiHours</h5>
-    <p>Les paramètres d'initialisation "nom de l'offre", "date de début", "date de fin", "identifiant de période" et "type d'offre" sont
+    <p>Les paramètres d'initialisation "nom de l'offre" ainsi qu'un objet contenant des valeurs "date de début", "date de fin" et "identifiant de période" OU "type d'offre" sont
       obligatoires. Des paramètres complémentaires vous permettent de personnaliser davantage le fonctionnement du formulaire.</p>
     <div class="p-2">
       <blockquote>
   <pre><code>
   &lt;script&gt;
     ...
+    const paramsWithType = {startDate: '2022-01-01', endDate: '2022-12-31', externalType: 'PATRIMOINE_NATUREL'};
+    // Variante avec identifiant de période
+    // const paramsWithId = {startDate: '2022-01-01', endDate: '2022-12-31', externalId: '1234'};
+
     function openApiHours() {
-      openApiHoursForm('Nom offre', {startDate: '2022-01-01', endDate: '2022-12-31', externalType: 'PATRIMOINE_NATUREL'}, {
+      openApiHoursForm('Nom offre', paramsWithType, {
         onSubmit: function(timePeriods) {
           document.querySelector("input[name='time_periods']").value = timePeriods;
         },

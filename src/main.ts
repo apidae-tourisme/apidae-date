@@ -1,9 +1,10 @@
-import {enableProdMode} from '@angular/core';
+import {enableProdMode, Injector} from '@angular/core';
 import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';
 
 import {AppModule} from './app/app.module';
 import {environment} from './environments/environment';
 import {DEFAULT_STATE, INIT_PARAMS} from "./app/app.config";
+import {UtilsModule} from "./app/utils.module";
 
 if (environment['production']) {
   enableProdMode();
@@ -39,8 +40,17 @@ if (environment['standalone']) {
         if (timeSchedule.externalId) { initData.externalId = timeSchedule.externalId; }
         if (timeSchedule.timePeriods) { initData.timePeriods = timeSchedule.timePeriods; }
 
-        initApp(initData, ['/modal', 'form', initData.type, initData.externalId || '']);
-
+        // Note : this workaround is because browser platform is a singleton, and token providers are ignored during 2nd call
+        // see https://github.com/angular/angular/issues/25358
+        const platform = platformBrowserDynamic();
+        (platform as any)._injector = Injector.create({
+          providers: [
+            {provide: INIT_PARAMS, useValue: initData},
+            {provide: DEFAULT_STATE, useValue: ['/modal', 'form', initData.type, initData.externalId || '']}
+          ],
+          parent: platform.injector,
+        });
+        platform.bootstrapModule(AppModule).catch(err => console.log(err));
       } catch (e) {
         console.error("openApiHoursForm error: " + e);
       }
@@ -49,6 +59,8 @@ if (environment['standalone']) {
         "has valid startDate, endDate and externalId or externalType properties.");
     }
   };
+
+  initUtils();
 }
 
 function initApp(initData: any, defaultState: string[]) {
@@ -63,4 +75,12 @@ function initApp(initData: any, defaultState: string[]) {
 function initTag() {
   let apidateTag = document.createElement('apidate-root');
   document.body.appendChild(apidateTag);
+}
+
+function initUtils() {
+  let apidateUtils = document.createElement('apidate-utils');
+  document.body.appendChild(apidateUtils);
+  platformBrowserDynamic()
+    .bootstrapModule(UtilsModule)
+    .catch(err => console.log(err));
 }
